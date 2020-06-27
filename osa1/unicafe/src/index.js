@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
+// OSA 1
+// UNICAFE
+
 // komponentit
 const Header = ({text}) => (
     <div>
