@@ -7,8 +7,20 @@ const Header = ({ course }) => {
     )
 }
 
-const Total = ({ course }) => {
-    const sum = course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises
+const Total = ({ parts }) => {
+
+    /*
+    // summaus for-loopilla
+    let sum = 0
+    for (let i = 0; i < parts.length; i++) {
+        sum += parts[i].exercises
+    }*/
+
+    // summaus reducella
+    const sum = parts.reduce((s, p) => {
+        return (s + p.exercises)
+    }, 0)
+
     return(
         <p>Number of exercises {sum}</p>
     )
@@ -42,6 +54,7 @@ const Course = ({course}) => {
         <div>
             <Header course={course} />
             <Content course={course} />
+            <Total parts={course.parts} />
         </div>
     )
 }
@@ -68,10 +81,9 @@ const App = () => {
             },
             {
                 name: 'Redux',
-                exercises: 11,
+                exercises: 19,
                 id: 5
             }
-
         ]
     }
 
