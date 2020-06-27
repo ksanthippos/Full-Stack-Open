@@ -17,7 +17,6 @@ const Courses = ({ courses }) => {
 
 const Course = ({ course }) => {
     return (
-
         <div>
             <Header course={course} />
             <Content course={course} />
@@ -40,7 +39,7 @@ const Total = ({ parts }) => {
     }, 0)
 
     /*
-    // for-loopilla menisi näin, mutta reduce lienee tehokkaampi ainakin suuremmilla määrillä (?)
+    // for-loopilla kokeilin myös, mutta reduce lienee tehokkaampi ainakin suuremmilla määrillä (?)
     let sum = 0
     for (let i = 0; i < parts.length; i++) {
         sum += parts[i].exercises

@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
 
-// OSA 2
-// PUHELINLUETTELO
+// TYHJÄ KOPIOITAVAKSI
 
 const App = () => {
     return (
