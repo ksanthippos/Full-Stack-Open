@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "./App";
 
-// OSA 2-2
+// OSAT 2-2 JA 2-3
 // SPA - JATKUU
 
 const notes = [

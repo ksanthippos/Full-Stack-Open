@@ -1,14 +1,13 @@
 import React from "react";
 
-const FindName = ({ persons, setSearchResults, searchTerm, handleFindName }) => {
+const FindName = ({ countries, setSearchResults, searchTerm, handleFindName }) => {
 
-
-    React.useEffect(() => {
-        const found = persons.filter(person =>
-            person.name.toLowerCase().includes(searchTerm)
+/*    React.useEffect(() => {
+        const found = countries.filter(country =>
+            country.name.toLowerCase().includes(searchTerm)
         )
         setSearchResults(found)
-    }, [searchTerm])
+    }, [searchTerm])*/
 
     return (
         <form>

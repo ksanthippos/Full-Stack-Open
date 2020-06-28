@@ -4,7 +4,9 @@ const Person = ({ person }) => {
 
     return (
         <div>
-            {person.name} <p/>
+            <li>
+                {person.name} : {person.number}
+            </li>
         </div>
     )
 }

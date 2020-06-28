@@ -1,37 +1,31 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import AddPerson from "./components/AddPerson";
 import FindName from "./components/FindName";
 import Display from "./components/Display";
+import axios from "axios";
 
-// PUHELINLUETTELO
+// OSA 2
+// PUHELINLUETTELO 2.11 (step 6)
+
+/*
+Käytin tässä samaa koodipohjaa kuin puhelinluettelossa enkä (laiskuuttani) jaksanut refaktoroida
+muuttujia countryiksi yms. Toiminnallisuus kuitenkin ok ja se kait pääasia.
+*/
 
 const App = () => {
 
-    const [ persons, setPersons] = useState([
-        {name: 'Arto Hellas', number: '040072677', id: 1},
-        {name: 'Kalle Kustaa Korkki', number: '(secret)', id: 2},
-        {name: 'Pelle Miljoona', number: '1000000', id: 3}
-    ])
-    const [ newName, setNewName ] = useState('')
-    const [ newNumber, setNewNumber ] = useState('')
+    const [ persons, setPersons] = useState([])
     const [ searchTerm, setSearchTerm] = useState('')
     const [ searchResults, setSearchResults ] = useState([])
 
-    const [ searchNull, setSearchNull] = useState(true)
-
-    const handleNameChange = (event) => {
-        const nameinput = event.target.value
-        const found = persons.find(el => el.name === nameinput)
-
-        if (found)
-            alert('Name ' + nameinput + ' is already added to phonebook')
-        else
-            setNewName(nameinput)
-    }
-
-    const handleNumberChange = (event) => {
-        setNewNumber(event.target.value)
-    }
+    useEffect(() => {
+        axios
+            .get('https://restcountries.eu/rest/v2/all?fields=name;capital;population;languages;flag')
+            .then(response => {
+                setPersons(response.data)
+                console.log(response.data)
+            })
+    }, [])
 
     const handleFindName = (event) => {
         setSearchTerm(event.target.value)
@@ -39,14 +33,11 @@ const App = () => {
 
     return (
         <div>
-            <h1>Phonebook</h1>
-            <FindName setSearchNull={setSearchNull} persons={persons} setSearchResults={setSearchResults}
+            <h1>Country DB</h1>
+            <FindName persons={persons} setSearchResults={setSearchResults}
                       searchTerm={searchTerm} handleFindName={handleFindName} />
-            <h2>Add new</h2>
-            <AddPerson namesToShow={searchResults} persons={persons} setPersons={setPersons} setNewName={setNewName} newName={newName} handleNameChange={handleNameChange}
-                       newNumber={newNumber} setNewNumber={setNewNumber} handleNumberChange={handleNumberChange} />
-            <h2>Numbers</h2>
-            <Display searchNull={searchNull} persons={persons} namesToShow={searchResults} />
+            <h2>Countries</h2>
+            <Display persons={persons} namesToShow={searchResults} />
             ...
         </div>
     )
