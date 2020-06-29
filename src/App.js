@@ -1,41 +1,74 @@
-import React, {useEffect, useState} from 'react'
-import FindName from "./components/FindName";
-import Display from "./components/Display";
+// juuri
+import React, {useEffect, useState} from "react";
 import axios from "axios";
+import Note from "./components/Note";
 
-// OSA 2
-// MAIDEN TIEDOT 2.11 (step 6)
-
-/*
-Käytin tässä samaa koodipohjaa kuin puhelinluettelossa enkä (laiskuuttani) jaksanut refaktoroida
-muuttujia countryiksi yms. Toiminnallisuus kuitenkin ok ja se kait pääasia.
-*/
 
 const App = () => {
-
-    const [ countries, setCountries] = useState([])
-    const [ searchTerm, setSearchTerm] = useState('')
-    const [ searchResults, setSearchResults ] = useState([])
+    const [notes, setNotes] = useState([])
+    const [newNote, setNewNote] = useState('')
+    const [showAll, setShowAll] = useState(true)
 
     useEffect(() => {
         axios
-            .get('https://restcountries.eu/rest/v2/all?fields=name;capital;population;languages;flag')
+            .get('http://localhost:3001/notes')
             .then(response => {
-                setCountries(response.data)
+                setNotes(response.data)
             })
     }, [])
 
-
-    const handleFindName = (event) => {
-        setSearchTerm(event.target.value)
+    const toggleImportanceOf = (id) => {
+        console.log(`importance of ${id} needs to be toggled`)
     }
+
+    const addNote = (event) => {
+        event.preventDefault()
+        const noteObject = {
+            content: newNote,
+            date: new Date().toISOString(),
+            important: Math.random() > 0.5,
+        }
+
+        axios
+            .post('http://localhost:3001/notes', noteObject)
+            .then(response => {
+                setNotes(notes.concat(noteObject))
+                setNewNote('')
+            })
+    }
+
+    const handleNoteChange = (event) => {
+        setNewNote(event.target.value)
+    }
+
+    const notesToShow = showAll
+        ? notes
+        : notes.filter(note => note.important)
 
     return (
         <div>
-            <h1>Country info app</h1>
-            <FindName countries={countries} setSearchResults={setSearchResults}
-                      searchTerm={searchTerm} handleFindName={handleFindName} />
-            <Display namesToShow={searchResults} />
+            <h1>Notes</h1>
+            <div>
+                <button onClick={() => setShowAll(!showAll)}>
+                    show {showAll ? 'important' : 'all' }
+                </button>
+            </div>
+            <ul>
+                {notesToShow.map((note, i) =>
+                    <Note
+                        key={i}
+                        note={note}
+                        toggleImportance={() => toggleImportanceOf(note.id)}
+                    />
+                )}
+            </ul>
+            <form onSubmit={addNote}>
+                <input
+                    value={newNote}
+                    onChange={handleNoteChange}
+                />
+                <button type="submit">save</button>
+            </form>
         </div>
     )
 }
