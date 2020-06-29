@@ -1,12 +1,10 @@
 import React from "react";
 
-const Country = ({ country }) => {
+const Country = ({ country  }) => {
 
     return (
         <div>
-            <li>
-
-            </li>
+            {country.name}
         </div>
     )
 }

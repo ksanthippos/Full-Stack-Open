@@ -1,43 +1,46 @@
-import Person from "./Person";
-import FullPerson from "./FullPerson";
-import React from "react";
+import React, {useState} from "react";
+import Country from "./Country";
+import FullCountry from "./FullCountry";
+
 
 const Display = ( {namesToShow}) => {
 
-    if (namesToShow.length > 10) {
-        return (
-            <div>
-                Please specify another filter, too many countries found!
-            </div>
-        )
-    }
-    else if (namesToShow.length === 0) {
+
+    if (namesToShow.length === 0) {
         return (
             <div>
                 No countries found.
             </div>
         )
     }
+    else if (namesToShow.length > 10) {
+        return (
+            <div>
+                Please specify another filter, too many countries found!
+            </div>
+        )
+    }
     else if (namesToShow.length === 1) {
         return (
             <div>
-                {namesToShow.map((person, i) =>
-                    <FullPerson key={i} person={person} />
+                {namesToShow.map((country, i) =>
+                    <FullCountry key={i} country={country} />
                 )}
             </div>
         )
     }
 
-    // countries found in range of 2 ... 10
+    // ehdokkaita 2 - 10 kpl
     return(
         <div>
             <ul>
-                {namesToShow.map((person, i) =>
-                    <Person key={i} person={person} />
+                {namesToShow.map((country, i) =>
+                    <Country key={i} country={country} />
                 )}
             </ul>
         </div>
     )
+
 
 }
 

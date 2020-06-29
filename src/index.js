@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from "./App";
 
 // OSA 2
-// PUHELINLUETTELO
+// MAIDEN NIMET
 
 
 ReactDOM.render(
