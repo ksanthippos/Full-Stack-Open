@@ -20,7 +20,7 @@ const Display = ( {namesToShow}) => {
             </div>
         )
     }
-    else if (namesToShow.length === 1) {
+/*    else if (namesToShow.length === 1) {
         return (
             <div>
                 {namesToShow.map((country, i) =>
@@ -28,14 +28,15 @@ const Display = ( {namesToShow}) => {
                 )}
             </div>
         )
-    }
+    }*/
 
     // ehdokkaita 2 - 10 kpl
     return(
         <div>
             <ul>
                 {namesToShow.map((country, i) =>
-                    <Country key={i} country={country} />
+                    <FullCountry key={i} country={country} />
+                    /*<Country key={i} country={country} />*/
                 )}
             </ul>
         </div>

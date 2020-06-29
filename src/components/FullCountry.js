@@ -7,6 +7,9 @@ const FullCountry = ({ country }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
 
+    const [isVisible, setIsVisible] = useState(false)
+
+
 
     useEffect(() => {
         async function getData() {
@@ -26,25 +29,36 @@ const FullCountry = ({ country }) => {
         getData();
     }, [country.capital]);
 
+    if (isVisible) {
+        return isLoading ? <p>Loading...</p> : (
+            <div>
+                <h2>{country.name}</h2>
+                <p>Capital: {country.capital}</p>
+                <p>Population: {country.population}</p>
+                <h3>Spoken languages:</h3>
+                {country.languages.map(language =>
+                    <li>
+                        {language.name}
+                    </li>
+                )}
+                <img src={country.flag} width="200" height="100" alt="country flag missing"/>
+                <h3>Weather in {country.capital}:</h3>
+                Temperature: {weather.current.temperature} <p/>
+                <img src={weather.current.weather_icons} width="50" height="50" alt="weather symbol missing"/><p/>
+                Wind: {weather.current.wind_speed} mph, direction {weather.current.wind_dir}
+            </div>
+        )
+    }
 
-    return isLoading ? <p>Loading...</p> : (
+    return (
         <div>
-            <h2>{country.name}</h2>
-            <p>Capital: {country.capital}</p>
-            <p>Population: {country.population}</p>
-            <h3>Spoken languages:</h3>
-            {country.languages.map(language =>
-                <li>
-                    {language.name}
-                </li>
-            )}
-            <img src={country.flag} width="200" height="100" alt="country flag missing"/>
-            <h3>Weather in {country.capital}:</h3>
-            Temperature: {weather.current.temperature} <p/>
-            <img src={weather.current.weather_icons} width="50" height="50" alt="weather symbol missing"/><p/>
-            Wind: {weather.current.wind_speed} mph, direction {weather.current.wind_dir}
+            {country.name}
+            <button onClick={() => setIsVisible(true)}>
+                show
+            </button>
         </div>
     )
+
 }
 
 export default FullCountry
