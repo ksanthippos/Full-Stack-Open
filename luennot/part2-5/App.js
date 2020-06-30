@@ -2,7 +2,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Note from "./components/Note";
-import noteService from "./services/notes";
 
 
 const App = () => {
@@ -12,10 +11,10 @@ const App = () => {
 
     // get data
     useEffect(() => {
-        noteService
-            .getAll()
-            .then(initialNotes => {
-                setNotes(initialNotes)
+        axios
+            .get('http://localhost:3001/notes')
+            .then(response => {
+                setNotes(response.data)
             })
     }, [])
 
@@ -28,28 +27,30 @@ const App = () => {
             important: Math.random() > 0.5,
         }
 
-        noteService
-            .create(noteObject)
-            .then(returnedNote => {
-                setNotes(notes.concat(returnedNote))
+        axios
+            .post('http://localhost:3001/notes', noteObject)
+            .then(response => {
+                setNotes(notes.concat(noteObject))
                 setNewNote('')
             })
-
     }
 
     // change data
     const toggleImportanceOf = (id) => {
+        const url = 'http://localhost:3001/notes/' + id
         const note = notes.find(n => n.id === id)
         const changedNote = {...note, important: !note.important}
 
-        noteService
-            .update(id, changedNote)
-            .then(returnedNote => {
-                setNotes(notes.map(note => note.id !== id
-                    ? note
-                    : returnedNote))
-            })
+        console.log(url)
+
+        axios
+            .put(url, changedNote)
+            .then(response => {
+            setNotes(notes.map(note => note.id !== id ? note : response.data))
+        })
     }
+
+
 
     const handleNoteChange = (event) => {
         setNewNote(event.target.value)
