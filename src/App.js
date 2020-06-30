@@ -1,6 +1,5 @@
 // juuri
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import Note from "./components/Note";
 import noteService from "./services/notes";
 
@@ -49,6 +48,12 @@ const App = () => {
                     ? note
                     : returnedNote))
             })
+            .catch(error => {
+            alert(
+                `The note ${note.content} was already deleted from server!`
+            )
+            setNotes(notes.filter(n => n.id !== id))
+        })
     }
 
     const handleNoteChange = (event) => {
