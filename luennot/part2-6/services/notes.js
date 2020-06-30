@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:3001/notes'
 const getAll = () => {
     const request = axios.get(baseUrl)
 
-    // TESTI
+    // TESTI: luodaan viesti, joka ei sijaitse palvelimella mutta renderöityy silti selaimeen
     const nonExisting = {
         id: 10000,
         content: 'Not here really...',
@@ -12,10 +12,7 @@ const getAll = () => {
         important: true
     }
     return request
-        .then(response => response.data.concat(nonExisting))
-/*
-    return request
-        .then(response => response.data)*/
+        .then(response => response.data.concat(nonExisting))    // ilmaantuu selaimeen aina päivitettäessä
 }
 
 const create = (newObject) => {

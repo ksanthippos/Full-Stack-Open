@@ -1,0 +1,32 @@
+import React from "react";
+import personService from "../services/persons";
+
+const Person = ({ person, persons, setPersons }) => {
+
+    const handleDelete = () => {
+        if (window.confirm("Delete " + person.name + " from contacts?")) {
+            personService
+                .deletePerson(person.id)
+                .then(() => {
+                    personService
+                        .getAll()
+                        .then(returnedPersons => {
+                            setPersons(returnedPersons)
+                        })
+                })
+        }
+    }
+
+    return (
+        <div>
+            <li>
+                {person.name} : {person.number}
+                <button onClick={handleDelete}>
+                    delete
+                </button>
+            </li>
+        </div>
+    )
+}
+
+export default Person
