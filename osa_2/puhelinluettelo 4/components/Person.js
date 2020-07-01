@@ -20,7 +20,7 @@ const Person = ({ person, setPersons }) => {
 
     return (
         <div>
-            <li>
+            <li className='person'>
                 {person.name} : {person.number}
                 <button onClick={handleDelete}>
                     delete

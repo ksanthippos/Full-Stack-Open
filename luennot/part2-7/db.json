@@ -9,13 +9,13 @@
     {
       "content": "juu toimii",
       "date": "2020-06-29T15:29:19.506Z",
-      "important": true,
+      "important": false,
       "id": 2
     },
     {
       "content": "hahaa",
       "date": "2020-06-29T15:29:22.229Z",
-      "important": false,
+      "important": true,
       "id": 3
     }
   ]
