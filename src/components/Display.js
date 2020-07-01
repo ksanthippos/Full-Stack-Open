@@ -1,10 +1,10 @@
 import Person from "./Person";
 import React from "react";
-import AddPerson from "./AddPerson";
 
 const Display = ( {searchNull, persons, setPersons, namesToShow,
                       setNotification, notificationClass, setNotificationClass}) => {
 
+    // hakukenttä on tyhjä, näytetään kaikki henkilöt
     if (searchNull) {
         return(
             <div>
@@ -24,6 +24,7 @@ const Display = ( {searchNull, persons, setPersons, namesToShow,
             </div>
         )
     }
+    // näytetään vain hakukentän mukaiset henkilöt
     else {
         return(
             <div>
@@ -43,7 +44,6 @@ const Display = ( {searchNull, persons, setPersons, namesToShow,
             </div>
         )
     }
-
 }
 
 export default Display

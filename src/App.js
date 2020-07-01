@@ -13,11 +13,11 @@ const App = () => {
     const [ persons, setPersons] = useState([])
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
-    const [ searchTerm, setSearchTerm] = useState('')
+    const [ searchTerm, setSearchTerm ] = useState('')
     const [ searchResults, setSearchResults ] = useState([])
-    const [ searchNull, setSearchNull] = useState(true)
-    const [notificationClass, setNotificationClass] = useState('success')
-    const [notification, setNotification] = useState(null, notificationClass)
+    const [ searchNull, setSearchNull ] = useState(true)
+    const [ notificationClass, setNotificationClass ] = useState('success')
+    const [ notification, setNotification ] = useState(null, notificationClass)
 
     useEffect(() => {
         personService
@@ -27,19 +27,11 @@ const App = () => {
             })
     }, [])
 
+    const handleNameChange = (event) => { setNewName(event.target.value) }
 
-    const handleNameChange = (event) => {
-        const nameinput = event.target.value
-        setNewName(nameinput)
-    }
+    const handleNumberChange = (event) => { setNewNumber(event.target.value) }
 
-    const handleNumberChange = (event) => {
-        setNewNumber(event.target.value)
-    }
-
-    const handleFindName = (event) => {
-        setSearchTerm(event.target.value)
-    }
+    const handleFindName = (event) => { setSearchTerm(event.target.value) }
 
     return (
         <div>
