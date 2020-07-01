@@ -1,102 +1,77 @@
-// juuri
-import React, {useEffect, useState} from "react";
-import Note from "./components/Note";
+import React, {useEffect, useState} from 'react'
+import AddPerson from "./components/AddPerson";
+import FindName from "./components/FindName";
+import Display from "./components/Display";
 import Notification from "./components/Notification";
-import Footer from "./components/Footer";
-import noteService from "./services/notes";
+import personService from "./services/persons"
 
+// OSA 2
+// PUHELINLUETTELO 2.19
 
 const App = () => {
-    const [notes, setNotes] = useState([])
-    const [newNote, setNewNote] = useState('')
-    const [showAll, setShowAll] = useState(true)
-    const [errorMessage, setErrorMessage] = useState(null)
 
-    // get data
+    const [ persons, setPersons] = useState([])
+    const [ newName, setNewName ] = useState('')
+    const [ newNumber, setNewNumber ] = useState('')
+    const [ searchTerm, setSearchTerm] = useState('')
+    const [ searchResults, setSearchResults ] = useState([])
+    const [ searchNull, setSearchNull] = useState(true)
+    const [notificationClass, setNotificationClass] = useState('success')
+    const [notification, setNotification] = useState(null, notificationClass)
+
     useEffect(() => {
-        noteService
+        personService
             .getAll()
-            .then(initialNotes => {
-                setNotes(initialNotes)
+            .then(returnedPersons => {
+                setPersons(returnedPersons)
             })
     }, [])
 
-    // add data
-    const addNote = (event) => {
-        event.preventDefault()
-        const noteObject = {
-            content: newNote,
-            date: new Date().toISOString(),
-            important: Math.random() > 0.5,
-        }
 
-        noteService
-            .create(noteObject)
-            .then(returnedNote => {
-                setNotes(notes.concat(returnedNote))
-                setNewNote('')
-            })
+    const handleNameChange = (event) => {
+        const nameinput = event.target.value
+        setNewName(nameinput)
     }
 
-    // change data
-    const toggleImportanceOf = (id) => {
-        const note = notes.find(n => n.id === id)
-        const changedNote = {...note, important: !note.important}
-
-        noteService
-            .update(id, changedNote)
-            .then(returnedNote => {
-                setNotes(notes.map(note => note.id !== id
-                    ? note
-                    : returnedNote))
-            })
-            .catch(error => {
-            // oma virheviesti alertin sijaan
-            setErrorMessage(
-                `Note ${note.conten} was already removed from server!`
-            )
-            // näkyvissä 5 sek
-            setTimeout(() => {
-                setErrorMessage(null)
-            }, 5000)
-            setNotes(notes.filter(n => n.id !== id))
-        })
+    const handleNumberChange = (event) => {
+        setNewNumber(event.target.value)
     }
 
-    const handleNoteChange = (event) => {
-        setNewNote(event.target.value)
+    const handleFindName = (event) => {
+        setSearchTerm(event.target.value)
     }
-
-    const notesToShow = showAll
-        ? notes
-        : notes.filter(note => note.important)
 
     return (
         <div>
-            <h1>Notes</h1>
-            <Notification message={errorMessage} />
-            <div>
-                <button onClick={() => setShowAll(!showAll)}>
-                    show {showAll ? 'important' : 'all' }
-                </button>
-            </div>
-            <ul>
-                {notesToShow.map((note, i) =>
-                    <Note
-                        key={i}
-                        note={note}
-                        toggleImportance={() => toggleImportanceOf(note.id)}
-                    />
-                )}
-            </ul>
-            <form onSubmit={addNote}>
-                <input
-                    value={newNote}
-                    onChange={handleNoteChange}
-                />
-                <button type="submit">save</button>
-            </form>
-            <Footer />
+            <h1>Phonebook</h1>
+            <Notification message={notification} notificationClass={notificationClass}/>
+            <FindName setSearchNull={setSearchNull}
+                      persons={persons}
+                      setSearchResults={setSearchResults}
+                      searchTerm={searchTerm}
+                      handleFindName={handleFindName}
+            />
+            <h2>Add new</h2>
+            <AddPerson namesToShow={searchResults}
+                       persons={persons}
+                       setPersons={setPersons}
+                       setNewName={setNewName}
+                       newName={newName}
+                       handleNameChange={handleNameChange}
+                       newNumber={newNumber}
+                       setNewNumber={setNewNumber}
+                       handleNumberChange={handleNumberChange}
+                       setNotification={setNotification}
+                       notificationClass={notificationClass}
+                       setNotificationClass={setNotificationClass}
+            />
+            <h2>Numbers</h2>
+            <Display searchNull={searchNull}
+                     persons={persons}
+                     setPersons={setPersons}
+                     namesToShow={searchResults}
+            />
+            ...
         </div>
     )
 }

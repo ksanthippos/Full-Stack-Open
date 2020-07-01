@@ -3,14 +3,24 @@ h1 {
   color: green;
 }
 
-.note {
-  color: #3797bd;
+.person {
+  color: blue;
   padding-top: 3px;
   font-size: 15px;
 }
 
 .error {
-  color: #ff0000;
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.update {
+  color: #e38a1e;
   background: lightgrey;
   font-size: 20px;
   border-style: solid;

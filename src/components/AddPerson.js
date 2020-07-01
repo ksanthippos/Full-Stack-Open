@@ -2,7 +2,9 @@ import React from "react";
 import personService from "../services/persons";
 
 
-const AddPerson = ({persons, setPersons, setNewName, setNewNumber, newName, handleNameChange, newNumber, handleNumberChange}) => {
+const AddPerson = ({persons, setPersons, setNewName, setNewNumber, newName,
+                       handleNameChange, newNumber, handleNumberChange,
+                            setNotification, notificationClass, setNotificationClass}) => {
 
     const addPerson = (event) => {
         event.preventDefault()
@@ -27,7 +29,11 @@ const AddPerson = ({persons, setPersons, setNewName, setNewNumber, newName, hand
                             ? person
                             : returnedPerson))
                     })
-
+                setNotificationClass('update')
+                setNotification(`Updated ${newName} number to ${newNumber}`, {notificationClass})
+                setTimeout(() => {
+                    setNotification(null)
+                }, 2000)
                 // luettelon refresh vain päivitetyn henkilön osalta
                 setPersons(persons.filter(n => n.id !== person.id))
             }
@@ -41,6 +47,12 @@ const AddPerson = ({persons, setPersons, setNewName, setNewNumber, newName, hand
                     setNewName('')
                     setNewNumber('')
                 })
+            // ilmoitus lisäämisestä näkyvissä 2 sek
+            setNotificationClass('success')
+            setNotification(`Added ${newName}`, {notificationClass})
+            setTimeout(() => {
+                setNotification(null)
+            }, 2000)
         }
     }
 
