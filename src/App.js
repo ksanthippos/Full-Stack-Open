@@ -70,6 +70,9 @@ const App = () => {
                      persons={persons}
                      setPersons={setPersons}
                      namesToShow={searchResults}
+                     setNotification={setNotification}
+                     notificationClass={notificationClass}
+                     setNotificationClass={setNotificationClass}
             />
             ...
         </div>

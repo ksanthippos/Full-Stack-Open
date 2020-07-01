@@ -1,7 +1,7 @@
 import React from "react";
 import personService from "../services/persons";
 
-const Person = ({ person, setPersons }) => {
+const Person = ({ person, setPersons, setNotification, notificationClass, setNotificationClass }) => {
 
     const handleDelete = () => {
         if (window.confirm("Delete " + person.name + " from contacts?")) {
@@ -15,6 +15,13 @@ const Person = ({ person, setPersons }) => {
                             setPersons(returnedPersons)
                         })
                 })
+
+            // ilmoitus poistamisesta
+            setNotificationClass('update')
+            setNotification(`Deleted ${person.name} from contacts`, {notificationClass})
+            setTimeout(() => {
+                setNotification(null)
+            }, 2000)
         }
     }
 

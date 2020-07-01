@@ -29,13 +29,18 @@ const AddPerson = ({persons, setPersons, setNewName, setNewNumber, newName,
                             ? person
                             : returnedPerson))
                     })
+
+                // ilmoitus päivityksestä
                 setNotificationClass('update')
                 setNotification(`Updated ${newName} number to ${newNumber}`, {notificationClass})
                 setTimeout(() => {
                     setNotification(null)
                 }, 2000)
+
                 // luettelon refresh vain päivitetyn henkilön osalta
                 setPersons(persons.filter(n => n.id !== person.id))
+                setNewName('')
+                setNewNumber('')
             }
         }
         // luodaan uusi henkilö
@@ -47,7 +52,8 @@ const AddPerson = ({persons, setPersons, setNewName, setNewNumber, newName,
                     setNewName('')
                     setNewNumber('')
                 })
-            // ilmoitus lisäämisestä näkyvissä 2 sek
+
+            // ilmoitus lisäämisestä
             setNotificationClass('success')
             setNotification(`Added ${newName}`, {notificationClass})
             setTimeout(() => {

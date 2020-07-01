@@ -1,7 +1,9 @@
 import Person from "./Person";
 import React from "react";
+import AddPerson from "./AddPerson";
 
-const Display = ( {searchNull, persons, setPersons, namesToShow}) => {
+const Display = ( {searchNull, persons, setPersons, namesToShow,
+                      setNotification, notificationClass, setNotificationClass}) => {
 
     if (searchNull) {
         return(
@@ -13,6 +15,9 @@ const Display = ( {searchNull, persons, setPersons, namesToShow}) => {
                             person={person}
                             persons={persons}
                             setPersons={setPersons}
+                            setNotification={setNotification}
+                            notificationClass={notificationClass}
+                            setNotificationClass={setNotificationClass}
                         />
                     )}
                 </ul>
@@ -29,6 +34,9 @@ const Display = ( {searchNull, persons, setPersons, namesToShow}) => {
                             person={person}
                             persons={persons}
                             setPersons={setPersons}
+                            setNotification={setNotification}
+                            notificationClass={notificationClass}
+                            setNotificationClass={setNotificationClass}
                         />
                     )}
                 </ul>
