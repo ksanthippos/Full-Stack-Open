@@ -29,18 +29,27 @@ const AddPerson = ({persons, setPersons, setNewName, setNewNumber, newName,
                             ? person
                             : returnedPerson))
                     })
+                    .catch(error => {
+                        // päivittäminen ei onnistunut, esim. henkilö oli ehditty jo poistaa eri selainikkunassa
+                        setNotificationClass('error')
+                        setNotification(`Error ${error}: ${newName} has already been deleted`, {notificationClass})
+                        setTimeout(() => {
+                            setNotification(null)
+                        }, 5000)
+                    })
 
-                // ilmoitus päivityksestä
+                // ilmoitus onnistuneesta lisäyksestä
                 setNotificationClass('update')
                 setNotification(`Updated ${newName} number to ${newNumber}`, {notificationClass})
                 setTimeout(() => {
                     setNotification(null)
-                }, 2000)
+                }, 5000)
 
                 // luettelon refresh vain päivitetyn henkilön osalta
                 setPersons(persons.filter(n => n.id !== person.id))
                 setNewName('')
                 setNewNumber('')
+
             }
         }
         // luodaan uusi henkilö
@@ -80,7 +89,6 @@ const AddPerson = ({persons, setPersons, setNewName, setNewNumber, newName,
             </form>
         </div>
     )
-
 }
 
 export default AddPerson
