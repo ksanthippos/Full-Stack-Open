@@ -4,7 +4,8 @@ import Display from "./components/Display";
 import axios from "axios";
 
 // OSA 2
-// MAIDEN TIEDOT 2.11 (step 6)
+// MAIDEN TIEDOT
+// tehtävät 2.12-2.14
 
 
 const App = () => {

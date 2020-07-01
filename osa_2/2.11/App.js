@@ -1,23 +1,30 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import AddPerson from "./components/AddPerson";
 import FindName from "./components/FindName";
 import Display from "./components/Display";
+import axios from "axios";
 
+// OSA 2
 // PUHELINLUETTELO
+// tehtävä 2.11
 
 const App = () => {
 
-    const [ persons, setPersons] = useState([
-        {name: 'Arto Hellas', number: '040072677', id: 1},
-        {name: 'Kalle Kustaa Korkki', number: '(secret)', id: 2},
-        {name: 'Pelle Miljoona', number: '1000000', id: 3}
-    ])
+    const [ persons, setPersons] = useState([])
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
     const [ searchTerm, setSearchTerm] = useState('')
     const [ searchResults, setSearchResults ] = useState([])
 
     const [ searchNull, setSearchNull] = useState(true)
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:3001/persons')
+            .then(response => {
+                setPersons(response.data)
+            })
+    }, [])
 
     const handleNameChange = (event) => {
         const nameinput = event.target.value

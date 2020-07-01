@@ -1,7 +1,9 @@
 import React from 'react';
 import Courses from "./components/Courses";
 
-// Myös App on omassa tiedostossaan
+// OSA 2
+// KURSSITIEDOT
+// tehtävät 2.1-2.5
 
 const MainHeader = ({title}) => <div><h1>{title}</h1></div>
 
