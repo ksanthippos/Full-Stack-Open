@@ -9,7 +9,7 @@
     {
       "content": "juu toimii",
       "date": "2020-06-29T15:29:19.506Z",
-      "important": false,
+      "important": true,
       "id": 2
     },
     {
@@ -17,12 +17,6 @@
       "date": "2020-06-29T15:29:22.229Z",
       "important": false,
       "id": 3
-    },
-    {
-      "content": "ggg",
-      "date": "2020-07-02T15:15:13.134Z",
-      "important": false,
-      "id": 4
     }
   ]
 }
