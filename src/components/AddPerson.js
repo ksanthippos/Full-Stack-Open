@@ -49,7 +49,6 @@ const AddPerson = ({persons, setPersons, setNewName, setNewNumber, newName,
                 setPersons(persons.filter(n => n.id !== person.id))
                 setNewName('')
                 setNewNumber('')
-
             }
         }
         // luodaan uusi henkilö
@@ -61,8 +60,17 @@ const AddPerson = ({persons, setPersons, setNewName, setNewNumber, newName,
                     setNewName('')
                     setNewNumber('')
                 })
+                .catch(error => {
+                    // validaatiovirhe, esim nimi liian lyhyt
+                    setNotificationClass('error')
+                    console.log(error.message)
+                    setNotification(`${error} : Validation failed`, {notificationClass})
+                    setTimeout(() => {
+                        setNotification(null)
+                    }, 5000)
+                })
 
-            // ilmoitus lisäämisestä
+            // ilmoitus onnistuneesta lisäämisestä
             setNotificationClass('success')
             setNotification(`Added ${newName}`, {notificationClass})
             setTimeout(() => {
