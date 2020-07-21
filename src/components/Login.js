@@ -2,7 +2,8 @@ import React from 'react'
 import loginService from "../services/login";
 import blogService from '../services/blogs'
 
-const Login = ({ username, setUsername, password, setPassword, user, setUser, setErrorMessage }) => {
+const Login = ({ username, setUsername, password, setPassword, user,
+                   setUser, setNotification, notificationClass, setNotificationClass}) => {
 
     const handleLogin = async (event) => {
         event.preventDefault()
@@ -20,11 +21,18 @@ const Login = ({ username, setUsername, password, setPassword, user, setUser, se
             setUser(user)
             setUsername('')
             setPassword('')
+            setNotificationClass('success')
+            setNotification(`Welcome ${user.name}!`, {notificationClass})
+            setTimeout(() => {
+                setNotification(null)
+            }, 1500)
+
         }
         catch (exception) {
-            setErrorMessage('wrong credentials')
+            setNotificationClass('error')
+            setNotification('Invalid credentials', {notificationClass})
             setTimeout(() => {
-                setErrorMessage(null)
+                setNotification(null)
             }, 5000)
         }
     }
