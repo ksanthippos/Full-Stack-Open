@@ -5,9 +5,6 @@ import Display from "./components/Display";
 import Notification from "./components/Notification";
 import personService from "./services/persons"
 
-// OSA 2
-// PUHELINLUETTELO
-// tehtävät 2.19 - 2.20
 
 const App = () => {
 
