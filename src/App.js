@@ -56,7 +56,7 @@ const App = () => {
         .create(blogObj)
         .then(returnedBlog => {
             setBlogs(blogs.concat(returnedBlog))
-            setNotificationClass('error')
+            setNotificationClass('success')
             setNotification(`Added new blog ${title} by ${author} succesfully!`, {notificationClass})
             setTimeout(() => {
                 setNotification(null)
