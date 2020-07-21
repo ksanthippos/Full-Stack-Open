@@ -33,7 +33,7 @@ const Login = ({ username, setUsername, password, setPassword, user,
             setNotification('Invalid credentials', {notificationClass})
             setTimeout(() => {
                 setNotification(null)
-            }, 5000)
+            }, 1500)
         }
     }
 

@@ -60,14 +60,14 @@ const App = () => {
             setNotification(`Added new blog ${title} by ${author} succesfully!`, {notificationClass})
             setTimeout(() => {
                 setNotification(null)
-            }, 5000)
+            }, 2500)
         })
         .catch(error => {
             setNotificationClass('error')
             setNotification(`Error ${error}: Missing field info`, {notificationClass})
             setTimeout(() => {
                 setNotification(null)
-            }, 5000)
+            }, 2500)
         })
 
   }
