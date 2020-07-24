@@ -103,9 +103,11 @@ const App = () => {
 
   // **********************************
   // näkymä
-  const blogView = () => (
+  const blogView = () => ( // eniten tykkäyksiä saanut ylimpänä listassa
       <div>
-        {blogs.map(blog =>
+        {blogs.sort(function (a, b) {
+          return b.likes - a.likes
+        }).map(blog =>
             <Blog
                 key={blog.id}
                 blog={blog}
