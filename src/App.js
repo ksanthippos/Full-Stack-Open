@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
-import Login from "./components/Login";
 import Notification from "./components/Notification";
 import blogService from './services/blogs'
+import loginService from "./services/login";
+import Togglable from "./components/Togglable";
+import LoginForm from "./components/LoginForm";
 
 
 const App = () => {
@@ -16,13 +18,15 @@ const App = () => {
   const [ notificationClass, setNotificationClass ] = useState('success')
   const [ notification, setNotification ] = useState(null, notificationClass)
 
+
+  // **********************************
+  // tietojen käsittely
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
   }, [])
 
-  // haetaan selaimen local storagesta kirjautuneen käyttäjän tiedot
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -31,18 +35,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setAuthor(event.target.value)
-  }
-
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value)
-  }
 
   const addBlog = (event) => {
     event.preventDefault()
@@ -55,26 +47,81 @@ const App = () => {
     blogService
         .create(blogObj)
         .then(returnedBlog => {
-            setBlogs(blogs.concat(returnedBlog))
-            setNotificationClass('success')
-            setNotification(`Added new blog ${title} by ${author} succesfully!`, {notificationClass})
-            setTimeout(() => {
-                setNotification(null)
-            }, 2500)
+          setBlogs(blogs.concat(returnedBlog))
+          setNotificationClass('success')
+          setNotification(`Added new blog ${title} by ${author} succesfully!`, {notificationClass})
+          setTimeout(() => {
+            setNotification(null)
+          }, 2500)
         })
         .catch(error => {
-            setNotificationClass('error')
-            setNotification(`Error ${error}: Missing field info`, {notificationClass})
-            setTimeout(() => {
-                setNotification(null)
-            }, 2500)
+          setNotificationClass('error')
+          setNotification(`Error ${error}: Missing field info`, {notificationClass})
+          setTimeout(() => {
+            setNotification(null)
+          }, 2500)
         })
+  }
+  // **********************************
 
+
+  // **********************************
+  // event handlerit
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value)
   }
 
+  const handleAuthorChange = (event) => {
+    setAuthor(event.target.value)
+  }
+
+  const handleUrlChange = (event) => {
+    setUrl(event.target.value)
+  }
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+        const user = await loginService.login({
+            username, password
+        })
+
+        // tallennetaan käyttäjä selaimen local storageen istunnon ajaksi
+        window.localStorage.setItem(
+            'loggedBlogappUser', JSON.stringify(user)
+        )
+
+        blogService.setToken(user.token)
+        setUser(user)
+        setUsername('')
+        setPassword('')
+        setNotificationClass('success')
+        setNotification(`Welcome ${user.name}!`, {notificationClass})
+        setTimeout(() => {
+            setNotification(null)
+        }, 1500)
+
+    }
+    catch (exception) {
+        setNotificationClass('error')
+        setNotification('Invalid credentials', {notificationClass})
+        setTimeout(() => {
+            setNotification(null)
+        }, 1500)
+    }
+  }
+
+  const handleLogout = (event) => {
+    window.localStorage.removeItem('loggedBlogappUser')
+    window.location.reload()
+  }
+  // **********************************
+
+
+  // **********************************
+  // näkymä
   const blogView = () => (
       <div>
-        <h2>Blogs</h2>
         {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
         )}
@@ -103,35 +150,36 @@ const App = () => {
       </form>
   )
 
+  const loginForm = () => (
+    <Togglable buttonLabel='login'>
+      <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+      />
+    </Togglable>
+  )
+  // **********************************
+
+
   return (
     <div>
       <Notification
           message={notification}
           notificationClass={notificationClass}
       />
+      <h2>Blogs</h2>
       {user === null ?
-          <Login
-              username={username}
-              setUsername={setUsername}
-              password={password}
-              setPassword={setPassword}
-              user={user} setUser={setUser}
-              setNotification={setNotification}
-              notificationClass={notificationClass}
-              setNotificationClass={setNotificationClass}
-          /> :
+          loginForm() :
           <div>
             <p>Logged in as {user.name}</p>
-            <button onClick={() => {
-              window.localStorage.removeItem('loggedBlogappUser')
-              window.location.reload()
-            }}>
-              Logout
-            </button>
+            <button onClick={handleLogout}>Logout</button>
             {blogForm()}
-            {blogView()}
           </div>
       }
+      {blogView()}
     </div>
   )
 }
