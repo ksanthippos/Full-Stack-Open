@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 import blogService from '../services/blogs'
-const Blog = ({ blog, blogs, setBlogs }) => {
 
+const Blog = ({ blog, blogs, setBlogs, user }) => {
   const [blogVisible, setBlogVisible] = useState(false)
 
-  // styles
+  // tyylit
   const likedStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -39,15 +39,29 @@ const Blog = ({ blog, blogs, setBlogs }) => {
         })
   }
 
-  // renderöinti
+  const deleteHandler = (id) => {
+    if (window.confirm('Confirm delete: ', blog.name))
+    {
+      blogService
+          .remove(id)
+          .then(() => {
+            setBlogs(blogs.map(b => b))
+          })
+    }
+  }
+
+  // näkymä
   if (blogVisible) {
     return (
         <div style={likedStyle}>
-          {blog.title} <p/>
+          {blog.title} <button onClick={visibleHandler}>hide</button> <p/>
           {blog.author} <p/>
           {blog.url} <p/>
           likes: {blog.likes} <button onClick={likeHandler.bind(null, blog.id)}>like</button> <p/>
-          <button onClick={visibleHandler}>hide</button>
+          {blog.user.username === user.username ?
+            <button onClick={deleteHandler.bind(null, blog.id)}>remove blog</button> :
+            null
+          }
         </div>
     )
   }
@@ -55,7 +69,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
     return (
         <div style={normalStyle}>
           {blog.title} by: {blog.author}
-          <button onClick={visibleHandler}>show</button>
+          <button onClick={visibleHandler}>view</button>
         </div>
     )
   }
