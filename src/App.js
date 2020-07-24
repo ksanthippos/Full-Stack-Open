@@ -94,7 +94,7 @@ const App = () => {
     }
   }
 
-  const handleLogout = (event) => {
+  const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     window.location.reload()
   }
@@ -113,7 +113,7 @@ const App = () => {
                 blog={blog}
                 blogs={blogs}
                 setBlogs={setBlogs}
-                user={user}
+                user={blog.user}
             />
         )}
       </div>

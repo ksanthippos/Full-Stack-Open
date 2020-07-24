@@ -1,10 +1,8 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import blogService from '../services/blogs'
 
 const Blog = ({ blog, blogs, setBlogs, user }) => {
   const [blogVisible, setBlogVisible] = useState(false)
-  const username = user.username
-  const blogUsername = blog.user.username
 
   // tyylit
   const likedStyle = {
@@ -39,47 +37,54 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
         .then(returnedBlog => {
           setBlogs(blogs.map(b => b.id !== id ? b : returnedBlog))
         })
-
-    console.log(user)
   }
 
   const deleteHandler = (id) => {
-    const blogToDelete = blogs.find(b => b.id === id)
-
-    if (window.confirm(`Confirm delete blog: ${blogToDelete.title}`))
+    if (window.confirm(`Confirm delete blog: ${blog.title}`))
     {
       blogService
           .remove(id)
           .then(() => {
-            setBlogs(blogs.map(b => b))
+            blogService // näkymän päivitys
+                .getAll()
+                .then(returnedBlogs => {
+                  setBlogs(returnedBlogs)
+                })
           })
     }
   }
 
   // näkymä
     return (
-        <div>
-          {blogVisible ?
-              <div style={likedStyle}>
-                {blog.title}
-                <button onClick={visibleHandler}>hide</button>
-                <p/>
-                {blog.author} <p/>
-                {blog.url} <p/>
-                likes: {blog.likes}
-                <button onClick={likeHandler.bind(null, blog.id)}>like</button>
-                <p/>
-                {blogUsername === username ?
-                    <button onClick={deleteHandler.bind(null, blog.id)}>remove blog</button> :
-                    null
-                }
-              </div> :
-              <div style={normalStyle}>
-                {blog.title} by: {blog.author}
-                <button onClick={visibleHandler}>view</button>
-              </div>
-          }
+      <div>
+        {blogVisible ?
+          <div style={likedStyle}>
+            {blog.title}
+            <button onClick={visibleHandler}>
+              hide
+            </button>
+            <p/>
+            {blog.author} <p/>
+            {blog.url} <p/>
+            likes: {blog.likes}
+            <button onClick={likeHandler.bind(null, blog.id)}>
+              like
+            </button>
+            <p/>
+            <button
+                onClick={deleteHandler.bind(null, blog.id)}
+                style={{ display: user.id !== blog.user.id ? 'none' : '' }}>
+              remove blog
+            </button>
+          </div> :
+          <div style={normalStyle}>
+            {blog.title} by: {blog.author}
+            <button onClick={visibleHandler}>
+              view
+            </button>
           </div>
+        }
+      </div>
     )
 }
 
