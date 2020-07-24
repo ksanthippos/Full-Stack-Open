@@ -5,19 +5,18 @@ import blogService from './services/blogs'
 import loginService from "./services/login";
 import Togglable from "./components/Togglable";
 import LoginForm from "./components/LoginForm";
+import BlogForm from "./components/BlogForm";
 
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [ notificationClass, setNotificationClass ] = useState('success')
   const [ notification, setNotification ] = useState(null, notificationClass)
 
+  const blogFormRef = React.createRef()
 
   // **********************************
   // tietojen käsittely
@@ -36,20 +35,15 @@ const App = () => {
     }
   }, [])
 
-  const addBlog = (event) => {
-    event.preventDefault()
-    const blogObj = {
-      title: title,
-      author: author,
-      url: url,
-    }
+  const addBlog = (blogObj) => {
+    blogFormRef.current.toggleVisibility()
 
     blogService
         .create(blogObj)
         .then(returnedBlog => {
           setBlogs(blogs.concat(returnedBlog))
           setNotificationClass('success')
-          setNotification(`Added new blog ${title} by ${author} succesfully!`, {notificationClass})
+          setNotification(`Added new blog ${blogObj.title} by ${blogObj.author} succesfully!`, {notificationClass})
           setTimeout(() => {
             setNotification(null)
           }, 2500)
@@ -67,18 +61,6 @@ const App = () => {
 
   // **********************************
   // event handlerit
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setAuthor(event.target.value)
-  }
-
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value)
-  }
-
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -129,25 +111,9 @@ const App = () => {
   )
 
   const blogForm = () => (
-      <form onSubmit={addBlog}>
-        <h2>Create new blog</h2>
-        title
-        <input
-            value={title}
-            onChange={handleTitleChange}
-        /><p/>
-        author
-        <input
-            value={author}
-            onChange={handleAuthorChange}
-        /><p/>
-        url
-        <input
-            value={url}
-            onChange={handleUrlChange}
-        /><p/>
-        <button type="submit">Create</button>
-      </form>
+      <Togglable buttonLabel='new blog' ref={blogFormRef}>
+        <BlogForm createBlog={addBlog} />
+      </Togglable>
   )
 
   const loginForm = () => (
