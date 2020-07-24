@@ -51,28 +51,30 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
   }
 
   // näkymä
-  if (blogVisible) {
     return (
-        <div style={likedStyle}>
-          {blog.title} <button onClick={visibleHandler}>hide</button> <p/>
-          {blog.author} <p/>
-          {blog.url} <p/>
-          likes: {blog.likes} <button onClick={likeHandler.bind(null, blog.id)}>like</button> <p/>
-          {blog.user.username === user.username ?
-            <button onClick={deleteHandler.bind(null, blog.id)}>remove blog</button> :
-            null
+        <div>
+          {blogVisible ?
+              <div style={likedStyle}>
+                {blog.title}
+                <button onClick={visibleHandler}>hide</button>
+                <p/>
+                {blog.author} <p/>
+                {blog.url} <p/>
+                likes: {blog.likes}
+                <button onClick={likeHandler.bind(null, blog.id)}>like</button>
+                <p/>
+                {blog.user.username === user.username ?
+                    <button onClick={deleteHandler.bind(null, blog.id)}>remove blog</button> :
+                    null
+                }
+              </div> :
+              <div style={normalStyle}>
+                {blog.title} by: {blog.author}
+                <button onClick={visibleHandler}>view</button>
+              </div>
           }
-        </div>
+          </div>
     )
-  }
-  else {
-    return (
-        <div style={normalStyle}>
-          {blog.title} by: {blog.author}
-          <button onClick={visibleHandler}>view</button>
-        </div>
-    )
-  }
 }
 
 export default Blog
