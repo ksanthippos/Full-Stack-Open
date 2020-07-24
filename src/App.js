@@ -13,8 +13,8 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [ notificationClass, setNotificationClass ] = useState('success')
-  const [ notification, setNotification ] = useState(null, notificationClass)
+  const [notificationClass, setNotificationClass] = useState('success')
+  const [notification, setNotification] = useState(null, notificationClass)
 
   const blogFormRef = React.createRef()
 
@@ -109,6 +109,8 @@ const App = () => {
             <Blog
                 key={blog.id}
                 blog={blog}
+                blogs={blogs}
+                setBlogs={setBlogs}
             />
         )}
       </div>
