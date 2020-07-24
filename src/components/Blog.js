@@ -3,6 +3,8 @@ import blogService from '../services/blogs'
 
 const Blog = ({ blog, blogs, setBlogs, user }) => {
   const [blogVisible, setBlogVisible] = useState(false)
+  const username = user.username
+  const blogUsername = blog.user.username
 
   // tyylit
   const likedStyle = {
@@ -37,10 +39,14 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
         .then(returnedBlog => {
           setBlogs(blogs.map(b => b.id !== id ? b : returnedBlog))
         })
+
+    console.log(user)
   }
 
   const deleteHandler = (id) => {
-    if (window.confirm('Confirm delete: ', blog.name))
+    const blogToDelete = blogs.find(b => b.id === id)
+
+    if (window.confirm(`Confirm delete blog: ${blogToDelete.title}`))
     {
       blogService
           .remove(id)
@@ -63,7 +69,7 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
                 likes: {blog.likes}
                 <button onClick={likeHandler.bind(null, blog.id)}>like</button>
                 <p/>
-                {blog.user.username === user.username ?
+                {blogUsername === username ?
                     <button onClick={deleteHandler.bind(null, blog.id)}>remove blog</button> :
                     null
                 }
