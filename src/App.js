@@ -111,13 +111,13 @@ const App = () => {
   )
 
   const blogForm = () => (
-      <Togglable buttonLabel='new blog' ref={blogFormRef}>
+      <Togglable buttonLabel='New blog' ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
       </Togglable>
   )
 
   const loginForm = () => (
-    <Togglable buttonLabel='login'>
+    <Togglable buttonLabel='Login'>
       <LoginForm
           username={username}
           password={password}
