@@ -3,6 +3,7 @@ import blogService from '../services/blogs'
 
 const Blog = ({ blog, blogs, setBlogs, user }) => {
   const [blogVisible, setBlogVisible] = useState(false)
+  const [removeVisible, setRemoveVisible] = useState(false)
 
   // tyylit
   const likedStyle = {
@@ -24,10 +25,17 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
 
   // handlerit
   const visibleHandler = () => {
-    if (blogVisible)
+    if (blogVisible) {
       setBlogVisible(false)
-    else
+    }
+    else {
+      if (user.id !== blog.user.id) {
+        setRemoveVisible(false)
+      }
+
+      setRemoveVisible(true)
       setBlogVisible(true)
+    }
   }
 
   const likeHandler = (id) => {
@@ -36,6 +44,9 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
         .update(blog.id, updatedBlog)
         .then(returnedBlog => {
           setBlogs(blogs.map(b => b.id !== id ? b : returnedBlog))
+          console.log('user id: ', user.id)
+          console.log('blog user id', blog.user.id)
+
         })
   }
 
@@ -71,9 +82,7 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
               like
             </button>
             <p/>
-            <button
-                onClick={deleteHandler.bind(null, blog.id)}
-                style={{ display: user.id !== blog.user.id ? 'none' : '' }}>
+            <button onClick={deleteHandler.bind(null, blog.id)}>
               remove blog
             </button>
           </div> :
