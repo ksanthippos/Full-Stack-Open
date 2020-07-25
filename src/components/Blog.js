@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
 const Blog = ({ blog, blogs, setBlogs, user }) => {
@@ -58,26 +58,26 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
   }
 
   const likeHandler = (id) => {
-    const updatedBlog = { ...blog, likes: ++blog.likes}
+    const updatedBlog = { ...blog, likes: ++blog.likes }
     blogService
-        .update(blog.id, updatedBlog)
-        .then(returnedBlog => {
-          setBlogs(blogs.map(b => b.id !== id ? b : returnedBlog))
-        })
+      .update(blog.id, updatedBlog)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(b => b.id !== id ? b : returnedBlog))
+      })
   }
 
   const deleteHandler = (id) => {
     if (window.confirm(`Confirm delete blog: ${blog.title}`))
     {
       blogService
-          .remove(id)
-          .then(() => {
-            blogService // näkymän päivitys
-                .getAll()
-                .then(returnedBlogs => {
-                  setBlogs(returnedBlogs)
-                })
-          })
+        .remove(id)
+        .then(() => {
+          blogService // näkymän päivitys
+            .getAll()
+            .then(returnedBlogs => {
+              setBlogs(returnedBlogs)
+            })
+        })
     }
   }
 
@@ -102,7 +102,7 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
             <button onClick={deleteHandler.bind(null, blog.id)} style={deleteStyle}>
               remove blog
             </button> :
-              null
+            null
           }
         </div> :
         <div style={normalStyle}>
