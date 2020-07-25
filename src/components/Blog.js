@@ -28,7 +28,7 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
   }
 
   // handlerit
-  const visibleHandler = (user, blog) => {
+  const visibleHandler = () => {
 
     /*
     käyttäjän oltava kirjautuneena, jotta voi nähdä blogien yksityiskohdat ja lisätä myös
@@ -41,10 +41,7 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
     }
 
     // tarkistetaan onko blogin lisääjän username sama kuin kirjautuneella käyttäjällä
-    let username = user.username
-    let blogusername = blog.user.username
-
-    if (username !== blogusername) {
+    if (user.username !== blog.user.username) {
       setRemoveVisible(false)
     }
     else {
@@ -85,38 +82,38 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
   }
 
   // näkymä
-    return (
-      <div>
-        {blogVisible ?
-          <div style={likedStyle}>
-            {blog.title}
-            <button onClick={visibleHandler.bind(null, user, blog)}>
-              hide
-            </button>
-            <p/>
-            {blog.author} <p/>
-            {blog.url} <p/>
-            likes: {blog.likes}
-            <button onClick={likeHandler.bind(null, blog.id)}>
-              like
-            </button>
-            <p/>
-            { removeVisible ?
-              <button onClick={deleteHandler.bind(null, blog.id)} style={deleteStyle}>
-                remove blog
-              </button> :
-                null
-            }
-          </div> :
-          <div style={normalStyle}>
-            {blog.title} by: {blog.author}
-            <button onClick={visibleHandler.bind(null, user, blog)}>
-              view
-            </button>
-          </div>
-        }
-      </div>
-    )
+  return (
+    <div>
+      { blogVisible ?
+        <div style={likedStyle}>
+          {blog.title}
+          <button onClick={visibleHandler}>
+            hide
+          </button>
+          <p/>
+          {blog.author} <p/>
+          {blog.url} <p/>
+          likes: {blog.likes}
+          <button onClick={likeHandler.bind(null, blog.id)}>
+            like
+          </button>
+          <p/>
+          { removeVisible ?
+            <button onClick={deleteHandler.bind(null, blog.id)} style={deleteStyle}>
+              remove blog
+            </button> :
+              null
+          }
+        </div> :
+        <div style={normalStyle}>
+          {blog.title} by: {blog.author}
+          <button onClick={visibleHandler}>
+            view
+          </button>
+        </div>
+      }
+    </div>
+  )
 }
 
 export default Blog

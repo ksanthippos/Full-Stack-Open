@@ -44,16 +44,23 @@ const App = () => {
           setBlogs(blogs.concat(returnedBlog))
           setNotificationClass('success')
           setNotification(`Added new blog ${blogObj.title} by ${blogObj.author} succesfully!`, {notificationClass})
+
+          blogService // näkymän päivitys, jotta remove voidaan tarvittaessa tehdä heti
+              .getAll()
+              .then(returnedBlogs => {
+                setBlogs(returnedBlogs)
+              })
+
           setTimeout(() => {
             setNotification(null)
-          }, 2500)
+          }, 1500)
         })
         .catch(error => {
           setNotificationClass('error')
           setNotification(`Error ${error}: Missing field info`, {notificationClass})
           setTimeout(() => {
             setNotification(null)
-          }, 2500)
+          }, 1500)
         })
   }
 
