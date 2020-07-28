@@ -30,22 +30,13 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
   // handlerit
   const visibleHandler = () => {
 
-    /*
-    käyttäjän oltava kirjautuneena, jotta voi nähdä blogien yksityiskohdat ja lisätä myös
-    tykkäyksiä. tätä toiminnallisuutta ei taidettu pyytää materiaalissa, mutta mielestäni se
-    on loogista lisätä tähän kohtaan.
-    */
-    if (user === null) {
-      setRemoveVisible(false)
-      return
-    }
-
     // tarkistetaan onko blogin lisääjän username sama kuin kirjautuneella käyttäjällä
-    if (user.username !== blog.user.username) {
-      setRemoveVisible(false)
-    }
-    else {
-      setRemoveVisible(true)
+    if (user !== null) {
+      if (user.username !== blog.user.username) {
+        setRemoveVisible(false)
+      } else {
+        setRemoveVisible(true)
+      }
     }
 
     // bloginäkymän view/hide-toiminnallisuus
