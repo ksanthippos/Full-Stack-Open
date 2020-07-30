@@ -64,6 +64,15 @@ const App = () => {
       })
   }
 
+  const addLike = async (blog) => {
+    const updatedBlog = { ...blog, likes: ++blog.likes }
+    blogService
+        .update(blog.id, updatedBlog)
+        .then(returnedBlog => {
+          setBlogs(blogs.map(b => b.id !== blog.id ? b : returnedBlog))
+        })
+  }
+
   // **********************************
 
 
@@ -121,6 +130,7 @@ const App = () => {
           blogs={blogs}
           setBlogs={setBlogs}
           user={user}
+          addLike={addLike}
         />
       )}
     </div>

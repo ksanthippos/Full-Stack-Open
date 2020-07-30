@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, blogs, setBlogs, user }) => {
+const Blog = ({ blog, blogs, setBlogs, user, addLike }) => {
   const [blogVisible, setBlogVisible] = useState(false)
   const [removeVisible, setRemoveVisible] = useState(false)
 
@@ -49,12 +49,7 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
   }
 
   const likeHandler = (id) => {
-    const updatedBlog = { ...blog, likes: ++blog.likes }
-    blogService
-      .update(blog.id, updatedBlog)
-      .then(returnedBlog => {
-        setBlogs(blogs.map(b => b.id !== id ? b : returnedBlog))
-      })
+    addLike(blog)
   }
 
   const deleteHandler = (id) => {

@@ -53,22 +53,19 @@ test('renders also url/likes when clicked view button', () => {
 })
 
 test('event handler called when like is clicked', () => {
-
+  const mockHandler = jest.fn()
 
   const component = render(
-      <Blog blog={blog} user={user} />
+      <Blog blog={blog} user={user} addLike={mockHandler} />
   )
-  jest.mock('blogService')
 
-  const button = component.getByText('view')
-  fireEvent.click(button)
+  const buttonView = component.getByText('view')
+  fireEvent.click(buttonView)
 
-  // klikataan likeä
-  const likeButton = component.getByText('like')
-  fireEvent.click(likeButton)
-  fireEvent.click(likeButton)
-  blogService.update(mockResolvedValue(blog))
+  const buttonLike = component.getByText('like')
+  fireEvent.click(buttonLike)
 
+  expect(mockHandler.mock.calls).toHaveLength(1)
 
 })
 
