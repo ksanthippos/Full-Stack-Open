@@ -19,7 +19,7 @@ const App = () => {
   const blogFormRef = React.createRef()
 
   // **********************************
-  // tietojen käsittely
+  // effectit
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -35,6 +35,9 @@ const App = () => {
     }
   }, [])
 
+
+  // **********************************
+  // datan käsittely
   const addBlog = (blogObj) => {
     blogFormRef.current.toggleVisibility()
 
@@ -64,7 +67,7 @@ const App = () => {
       })
   }
 
-  const addLike = async (blog) => {
+  const addLike = (blog) => {
     const updatedBlog = { ...blog, likes: ++blog.likes }
     blogService
         .update(blog.id, updatedBlog)
@@ -73,7 +76,20 @@ const App = () => {
         })
   }
 
-  // **********************************
+  const deleteBlog = (blog) => {
+    if (window.confirm(`Confirm delete blog: ${blog.title}`))
+    {
+      blogService
+          .remove(blog.id)
+          .then(() => {
+            blogService // näkymän päivitys
+                .getAll()
+                .then(returnedBlogs => {
+                  setBlogs(returnedBlogs)
+                })
+          })
+    }
+  }
 
 
   // **********************************
@@ -114,7 +130,6 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     window.location.reload()
   }
-  // **********************************
 
 
   // **********************************
@@ -127,10 +142,9 @@ const App = () => {
         <Blog
           key={blog.id}
           blog={blog}
-          blogs={blogs}
-          setBlogs={setBlogs}
           user={user}
           addLike={addLike}
+          deleteBlog={deleteBlog}
         />
       )}
     </div>
@@ -153,8 +167,6 @@ const App = () => {
       />
     </Togglable>
   )
-  // **********************************
-
 
   return (
     <div>

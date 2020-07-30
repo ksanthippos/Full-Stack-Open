@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 
-const Blog = ({ blog, blogs, setBlogs, user, addLike }) => {
+const Blog = ({ blog, user, addLike, deleteBlog }) => {
   const [blogVisible, setBlogVisible] = useState(false)
   const [removeVisible, setRemoveVisible] = useState(false)
 
@@ -48,23 +47,12 @@ const Blog = ({ blog, blogs, setBlogs, user, addLike }) => {
     }
   }
 
-  const likeHandler = (id) => {
+  const likeHandler = () => {
     addLike(blog)
   }
 
-  const deleteHandler = (id) => {
-    if (window.confirm(`Confirm delete blog: ${blog.title}`))
-    {
-      blogService
-        .remove(id)
-        .then(() => {
-          blogService // näkymän päivitys
-            .getAll()
-            .then(returnedBlogs => {
-              setBlogs(returnedBlogs)
-            })
-        })
-    }
+  const deleteHandler = () => {
+    deleteBlog(blog)
   }
 
   // näkymä
@@ -80,12 +68,12 @@ const Blog = ({ blog, blogs, setBlogs, user, addLike }) => {
           {blog.author} <p/>
           {blog.url} <p/>
           likes: {blog.likes}
-          <button onClick={likeHandler.bind(null, blog.id)}>
+          <button onClick={likeHandler}>
             like
           </button>
           <p/>
           { removeVisible ?
-            <button onClick={deleteHandler.bind(null, blog.id)} style={deleteStyle}>
+            <button onClick={deleteHandler} style={deleteStyle}>
               remove blog
             </button> :
             null
