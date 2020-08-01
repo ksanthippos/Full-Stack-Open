@@ -43,5 +43,49 @@ describe('Blog app', function () {
     })
   })
 
+  describe('When logged in', function () {
+    beforeEach(function () {
+      cy.login({ username: 'testaaja', password: 'salainen' })
+    })
+
+    describe('multiple blogs can be created', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'test blog 1',
+          author: 'tester 1',
+          url: 'test1.org',
+          user: {
+            username: 'testaaja',
+            password: 'salainen'
+          }
+        })
+        cy.createBlog({
+          title: 'test blog 2',
+          author: 'tester 2',
+          url: 'test2.org',
+          user: {
+            username: 'testaaja',
+            password: 'salainen'
+          }
+        })
+      })
+
+      it('a sinlge can be liked', function () {
+        cy.contains('test blog 1')
+            .contains('view')
+            .click()
+
+        cy.contains('likes: 0')
+
+        cy.contains('test blog 1')
+            .contains('like')
+            .click()
+
+        cy.contains('likes: 1')
+      })
+
+    })
+  })
+
 
 })

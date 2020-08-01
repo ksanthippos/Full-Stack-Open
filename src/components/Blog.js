@@ -68,7 +68,10 @@ const Blog = ({ blog, user, addLike, deleteBlog }) => {
           {blog.author} <p/>
           {blog.url} <p/>
           likes: {blog.likes}
-          <button onClick={likeHandler}>
+          <button
+              id="like-button"
+              onClick={likeHandler}
+          >
             like
           </button>
           <p/>
@@ -81,7 +84,10 @@ const Blog = ({ blog, user, addLike, deleteBlog }) => {
         </div> :
         <div style={normalStyle}>
           {blog.title} by: {blog.author}
-          <button onClick={visibleHandler}>
+          <button
+              id="view-button"
+              onClick={visibleHandler}
+          >
             view
           </button>
         </div>
