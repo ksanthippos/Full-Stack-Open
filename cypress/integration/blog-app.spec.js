@@ -1,3 +1,5 @@
+import login from "../../src/services/login";
+
 describe('Blog app', function () {
   beforeEach(function () {
     cy.request('POST', 'http://localhost:3001/api/testing/reset')
@@ -51,7 +53,7 @@ describe('Blog app', function () {
     describe('multiple blogs can be created', function () {
       beforeEach(function () {
         cy.createBlog({
-          title: 'test blog 1',
+          title: 'blog_1',
           author: 'tester 1',
           url: 'test1.org',
           user: {
@@ -60,7 +62,7 @@ describe('Blog app', function () {
           }
         })
         cy.createBlog({
-          title: 'test blog 2',
+          title: 'blog_2',
           author: 'tester 2',
           url: 'test2.org',
           user: {
@@ -71,13 +73,13 @@ describe('Blog app', function () {
       })
 
       it('a single can be liked', function () {
-        cy.contains('test blog 1')
+        cy.contains('blog_1')
             .contains('view')
             .click()
 
         cy.contains('likes: 0')
 
-        cy.contains('test blog 1')
+        cy.contains('blog_1')
             .contains('like')
             .click()
 
@@ -85,20 +87,56 @@ describe('Blog app', function () {
       })
 
       it('a blog can be deleted when user has proper credentials', function () {
-        cy.contains('test blog 1')
+        cy.contains('blog_1')
             .contains('view')
             .click()
 
-        cy.contains('test blog 1')
+        cy.contains('blog_1')
             .contains('remove')
             .click()
 
-        cy.get('html').should('not.contain', 'test blog 1')
+        cy.get('html').should('not.contain', 'blog_1')
       })
 
+      // ei mikään maailman elegantein ratkaisu, mutta pitäisi toimia
+      it('blog should be ordered by likes', function () {
+        // molemmat blogit näkyviin
+        cy.contains('blog_1')
+            .contains('view')
+            .click()
 
+        cy.contains('blog_2')
+            .contains('view')
+            .click()
+
+        // tykätään blogista nro 2 kaksi kertaa --> pitäisi siirtyä nro 1 yläpuolelle
+        cy.contains('blog_2')
+            .contains('like')
+            .click()
+            .click()
+
+        cy.get('#blog-view')
+            .each(element => {
+              // haetaan kaikki elementit ja poimitaan oleellinen tieto niiden tekstisisällöstä
+              let elementsString = element[0].textContent
+              let elementsArray = elementsString.split(' ')
+              let blog_1_index, blog_2_index;
+
+              // 1. lisätyllä blogilla on testi1.org
+              elementsArray.map(el => {
+                if (el === 'test1.org')
+                  blog_1_index = elementsArray.indexOf(el)  // tallennetaan 1. lisätyn blogin indeksi
+                if (el === 'test2.org')
+                  blog_2_index = elementsArray.indexOf(el)
+              })
+
+              console.log('blogi 1: ', blog_1_index)
+              console.log('blogi 2: ', blog_2_index)
+
+              // vähemmän tykätyn blogin pitäisi olla indeksiltään suurempi
+              expect(blog_1_index).to.be.greaterThan(blog_2_index)
+            })
+      })
     })
   })
-
-
 })
