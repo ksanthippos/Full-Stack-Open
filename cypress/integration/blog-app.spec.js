@@ -70,7 +70,7 @@ describe('Blog app', function () {
         })
       })
 
-      it('a sinlge can be liked', function () {
+      it('a single can be liked', function () {
         cy.contains('test blog 1')
             .contains('view')
             .click()
@@ -83,6 +83,19 @@ describe('Blog app', function () {
 
         cy.contains('likes: 1')
       })
+
+      it('a blog can be deleted when user has proper credentials', function () {
+        cy.contains('test blog 1')
+            .contains('view')
+            .click()
+
+        cy.contains('test blog 1')
+            .contains('remove')
+            .click()
+
+        cy.get('html').should('not.contain', 'test blog 1')
+      })
+
 
     })
   })
