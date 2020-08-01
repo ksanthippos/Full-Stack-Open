@@ -119,7 +119,7 @@ const App = () => {
     }
     catch (exception) {
       setNotificationClass('error')
-      setNotification('Invalid credentials', { notificationClass })
+      setNotification('Wrong credentials', { notificationClass })
       setTimeout(() => {
         setNotification(null)
       }, 1500)
