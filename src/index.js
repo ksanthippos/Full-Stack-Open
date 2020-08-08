@@ -27,7 +27,6 @@ const App = () => {
     })
   }
 
-
   return (
     <div>
       <button onClick={good}>good</button> 
