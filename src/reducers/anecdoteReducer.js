@@ -20,15 +20,14 @@ const asObject = (anecdote) => {
 const initialState = anecdotesAtStart.map(asObject)
 
 const reducer = (state = initialState, action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
   switch (action.type) {
     case 'ADD_VOTE':
       const id = action.data.id
-      const voteTarget = state.find(a => a.id === id)
-      const votedAnecdote = {
+      const voteTarget = state.find(a => a.id === id) // etsitään äänestettävä
+      const currentVotes = voteTarget.votes  // nykyiset äänet
+      const votedAnecdote = { // luodaan uusi anekdootti, jolla yksi ääni enemmän
         ...voteTarget,
-        votes: voteTarget.votes++
+        votes: currentVotes + 1
       }
       return state.map(a =>
         a.id !== id ? a : votedAnecdote
@@ -38,6 +37,7 @@ const reducer = (state = initialState, action) => {
   }
 }
 
+// exportatut
 export const addVoteTo = (id) => {
   return {
     type: 'ADD_VOTE',
