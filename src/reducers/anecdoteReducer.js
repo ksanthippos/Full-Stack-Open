@@ -19,8 +19,11 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
+// varsinainen reduceri
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'NEW_ANECDOTE':
+      return [...state, action.data]
     case 'ADD_VOTE':
       const id = action.data.id
       const voteTarget = state.find(a => a.id === id) // etsitään äänestettävä
@@ -42,6 +45,17 @@ export const addVoteTo = (id) => {
   return {
     type: 'ADD_VOTE',
     data: { id }
+  }
+}
+
+export const addNewAnecdote = (content) => {
+  return {
+    type: 'NEW_ANECDOTE',
+    data: {
+      content,
+      votes: 0,
+      id: getId()
+    }
   }
 }
 
