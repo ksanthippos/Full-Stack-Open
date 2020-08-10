@@ -1,3 +1,4 @@
+// alkuarvot
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -40,7 +41,7 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-// exportatut
+// exportit
 export const addVoteTo = (id) => {
   return {
     type: 'ADD_VOTE',

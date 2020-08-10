@@ -2,14 +2,13 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {addVoteTo} from "../reducers/anecdoteReducer";
 
-const Anecdotes = ({ anecdote, handleClick }) => {
+const AnecdoteList = () => {
   const anecdotes = useSelector(state => state)
   const dispatch = useDispatch()
 
   return(
       <div>
-        <h2>Anecdotes</h2>
-        {anecdotes.sort(function (a, b) {
+        {anecdotes.sort(function (a, b) { // järjestys äänimäärän mukaan
           return b.votes - a.votes
         }).map(anecdote =>
             <div key={anecdote.id}>
@@ -30,4 +29,4 @@ const Anecdotes = ({ anecdote, handleClick }) => {
   )
 }
 
-export default Anecdotes
+export default AnecdoteList
