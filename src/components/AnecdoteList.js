@@ -7,10 +7,6 @@ import {setNotification, removeNotification} from "../reducers/notificationReduc
 
 const AnecdoteList = () => {
 
-  useEffect(() => {
-    removeNotification()
-  }, [])
-
   const anecdotes = useSelector(state => state.anecdote)
   const dispatch = useDispatch()
 
@@ -25,12 +21,13 @@ const AnecdoteList = () => {
               </div>
               <div>
                 has {anecdote.votes}
-                <button onClick={() =>
-                    dispatch(
-                        addVoteTo(anecdote.id),
-                        setNotification(anecdote.content),
-                        setTimeout(removeNotification, 3000)
-                    )}
+                <button onClick={() => {
+                  dispatch(setNotification(anecdote.content))
+                  dispatch(addVoteTo(anecdote.id))
+                  setTimeout(() => {
+                    dispatch(removeNotification())
+                  }, 5000)
+                }}
                 >
                   vote
                 </button>

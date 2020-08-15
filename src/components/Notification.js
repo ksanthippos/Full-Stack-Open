@@ -10,14 +10,18 @@ const Notification = () => {
     borderWidth: 1
   }
 
-  if (notification === 'EMPTY')
+  if (notification === null) {
     return null
+  }
 
-  return (
-    <div style={style}>
-      { notification }
-    </div>
-  )
+  else {
+    return (
+        <div style={style}>
+          { notification }
+        </div>
+    )
+  }
+
 }
 
 export default Notification

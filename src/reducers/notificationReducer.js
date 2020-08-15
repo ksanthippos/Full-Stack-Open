@@ -1,16 +1,15 @@
-const notificationReducer = (state = 'EMPTY', action) => {
+const notificationReducer = (state = null, action) => {
   switch (action.type) {
     case 'ALERT':
-      return state.notification
+      return 'voted for: ' + action.data.content
     case 'EMPTY':
-      return state.notification
+      return null
     default:
       return state
   }
 }
 
 export const setNotification = (content) => {
-  console.log('voted ', content)
   return {
     type: 'ALERT',
     data: { content }
@@ -18,7 +17,6 @@ export const setNotification = (content) => {
 }
 
 export const removeNotification = () => {
-  console.log('empty set')
   return {
     type: 'EMPTY'
   }
