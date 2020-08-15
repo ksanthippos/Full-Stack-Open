@@ -1,8 +1,12 @@
 import React from 'react'
+import {setSearch, setEmpty} from "../reducers/filterReducer";
 
 const Filter = () => {
+
   const handleChange = (event) => {
-    // input-kentän arvo muuttujassa event.target.value
+    event.target.value === '' ?
+      setEmpty() :
+      setSearch(event.target.value)
   }
   const style = {
     marginBottom: 10
