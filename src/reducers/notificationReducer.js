@@ -7,4 +7,8 @@ const notificationReducer = (state = 'ALERT', action) => {
   }
 }
 
+export const setNotification = () => {
+
+}
+
 export default notificationReducer
