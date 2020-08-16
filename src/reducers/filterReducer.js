@@ -1,28 +1,24 @@
-const filterReducer = (state = null, action) => {
-
+const filterReducer = (state = 'EMPTY', action) => {
   switch (action.type) {
     case 'SEARCH':
-      return action.filter
+      return action.search
     case 'EMPTY':
-      return null
+      return action.type
     default:
       return state
   }
 }
 
-export const setSearch = filter => {
-  console.log(filter)
-  console.log('search')
+export const setSearch = search => {
   return {
     type: 'SEARCH',
-    data: { filter }
+    search
   }
 }
 
 export const setEmpty = () => {
-  console.log('empty')
   return {
-    type: 'EMPTY'
+    type: 'EMPTY',
   }
 }
 

@@ -3,10 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import {addVoteTo} from "../reducers/anecdoteReducer";
 import {setNotification, removeNotification} from "../reducers/notificationReducer";
 
-
 const AnecdoteList = () => {
   const dispatch = useDispatch()
-  const anecdotes = useSelector(state => state.anecdote)
+  const anecdotes = useSelector(({ filter, anecdote }) => {
+    if (filter === 'EMPTY') {
+      return anecdote
+    }
+    else {
+      return anecdote.filter(a => a.content.includes(filter))
+    }
+  })
 
   return(
       <div>
@@ -35,7 +41,5 @@ const AnecdoteList = () => {
       </div>
   )
 }
-
-
 
 export default AnecdoteList
