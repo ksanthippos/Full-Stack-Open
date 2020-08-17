@@ -13,4 +13,11 @@ const createNew = async (content) => {
   return response.data
 }
 
-export default { getAll, createNew }
+const addVote = async (id) => {
+  const response = await axios.get(baseUrl)
+  const anecdote = response.data.find(a => a.id === id)
+  console.log(anecdote.id)
+  return response.data
+}
+
+export default { getAll, createNew, addVote }
