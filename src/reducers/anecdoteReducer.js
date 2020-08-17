@@ -1,3 +1,5 @@
+import noteService from '../services/anecdotes'
+
 const anecdoteReducer = (state = [], action) => {
   switch (action.type) {
     case 'NEW_ANECDOTE':
@@ -28,17 +30,23 @@ export const addVoteTo = (id) => {
   }
 }
 
-export const initializeAnecdotes = (anecdotes) => {
-  return {
-    type: 'INIT_ANECDOTES',
-    data: anecdotes
+export const initializeAnecdotes = () => {
+  return async dispatch =>{
+    const anecdotes = await noteService.getAll()
+    dispatch({
+      type: 'INIT_ANECDOTES',
+      data: anecdotes
+    })
   }
 }
 
-export const addNewAnecdote = (data) => {
-  return {
-    type: 'NEW_ANECDOTE',
-    data
+export const addNewAnecdote = (content) => {
+  return async dispatch => {
+    const newAnecdote = await noteService.createNew(content)
+    dispatch({
+      type: 'NEW_ANECDOTE',
+      data: newAnecdote
+    })
   }
 }
 
