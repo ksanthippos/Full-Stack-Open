@@ -9,19 +9,18 @@ const notificationReducer = (state = null, action) => {
   }
 }
 
-export const setNotification = (content) => {
-  return {
-    type: 'ALERT',
-    data: { content }
+export const displayNotification = (content, delay) => {
+  return async dispatch => {
+    dispatch({
+      type: 'ALERT',
+      data: {content}
+    })
+    setTimeout(() => {
+      dispatch({
+        type: 'EMPTY'
+      })
+    }, delay)
   }
 }
-
-export const removeNotification = () => {
-  return {
-    type: 'EMPTY'
-  }
-}
-
-
 
 export default notificationReducer
