@@ -1,23 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { connect } from 'react-redux'
 import {addVoteTo} from "../reducers/anecdoteReducer";
 import {displayNotification} from "../reducers/notificationReducer";
 
-const AnecdoteList = () => {
+const AnecdoteList = (props) => {
   const dispatch = useDispatch()
-  const anecdotes = useSelector(({ filter, anecdote }) => {
-    if (filter === 'EMPTY') {
-      return anecdote
-    }
-    else {
-      return anecdote.filter(a => a.content.includes(filter))
-    }
-  })
-
 
   return(
       <div>
-        {anecdotes.sort(function (a, b) { // järjestys äänimäärän mukaan
+        {props.anecdotes.sort(function (a, b) { // järjestys äänimäärän mukaan
           return b.votes - a.votes
         }).map(anecdote =>
             <div key={anecdote.id}>
@@ -40,4 +32,19 @@ const AnecdoteList = () => {
   )
 }
 
-export default AnecdoteList
+const mapStateToProps = (state) => {
+  if (state.filter === 'EMPTY') {
+    return {
+      anecdotes: state.anecdote
+    }
+  }
+  else {
+    return {
+      anecdotes: state.anecdote.filter(a => a.content.includes(state.filter))
+    }
+  }
+}
+
+const ConnectedAnecdotes = connect(mapStateToProps)(AnecdoteList)
+
+export default ConnectedAnecdotes
