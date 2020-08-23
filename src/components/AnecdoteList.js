@@ -14,6 +14,7 @@ const AnecdoteList = () => {
     }
   })
 
+
   return(
       <div>
         {anecdotes.sort(function (a, b) { // järjestys äänimäärän mukaan
