@@ -9,7 +9,7 @@
 /coverage
 
 # production
-/luennot/part3-1/build
+/build
 
 # misc
 .DS_Store
