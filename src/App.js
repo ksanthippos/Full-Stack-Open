@@ -93,6 +93,13 @@ const App = () => {
       info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
       id: '2'
+    },
+    {
+      content: 'KVG',
+      author: 'MR',
+      info: 'http://google.com',
+      votes: 0,
+      id: '3'
     }
   ])
 
