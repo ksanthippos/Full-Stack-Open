@@ -2,21 +2,26 @@ import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
   Switch, Route, Link,
-  useParams
+  useParams, Redirect
 } from 'react-router-dom'
 
 
-const AnecdoteList = ({ anecdotes }) => (
+
+const AnecdoteList = ({ anecdotes, setRedirect }) => {
+  setRedirect(false)  // resetoidaan uudelleenohjaus
+
+  return(
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => 
+      {anecdotes.map(anecdote =>
       <li key={anecdote.id} >
         <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
       </li>)}
     </ul>
   </div>
-)
+  )
+}
 
 const Anecdote = ({ anecdotes }) => {
   const id = useParams().id
@@ -57,7 +62,6 @@ const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
-
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -112,20 +116,15 @@ const App = () => {
       votes: 0,
       id: '2'
     },
-    {
-      content: 'KVG',
-      author: 'MR',
-      info: 'http://google.com',
-      votes: 0,
-      id: '3'
-    }
   ])
 
   const [notification, setNotification] = useState('')
+  const [redirect, setRedirect] = useState(false) // oma tila tarkkailemaan uudelleenohjauksen tarvetta
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setRedirect(true)
   }
 
   const anecdoteById = (id) =>
@@ -157,10 +156,10 @@ const App = () => {
           <Anecdote anecdotes={anecdotes} />
         </Route>
         <Route path="/anecdotes">
-          <AnecdoteList anecdotes={anecdotes} />
+          <AnecdoteList anecdotes={anecdotes} setRedirect={setRedirect}/>
         </Route>
         <Route path="/create">
-          <CreateNew addNew={addNew} />
+          {redirect ? <Redirect to="/anecdotes" /> : <CreateNew addNew={addNew} /> }
         </Route>
         <Route path="/about">
           <About />
