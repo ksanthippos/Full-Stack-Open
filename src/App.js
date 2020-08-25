@@ -94,6 +94,27 @@ const CreateNew = (props) => {
       </form>
     </div>
   )
+}
+
+const Notification = ({ notification }) => {
+
+  const style = {
+    border: 'solid',
+    padding: 10,
+    borderWidth: 1
+  }
+
+  if (notification === null) {
+    return null
+  }
+
+  else {
+    return (
+        <div style={style}>
+          { notification }
+        </div>
+    )
+  }
 
 }
 
@@ -118,13 +139,15 @@ const App = () => {
     },
   ])
 
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState(null)
   const [redirect, setRedirect] = useState(false) // oma tila tarkkailemaan uudelleenohjauksen tarvetta
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
     setRedirect(true)
+    setNotification(`a new anecdote ${anecdote.content} created!`)
+    setTimeout(() => setNotification(null), 10000)
   }
 
   const anecdoteById = (id) =>
@@ -150,7 +173,7 @@ const App = () => {
         <Link style={padding} to="/about">about</Link>
       </div>
       <h1>Software anecdotes</h1>
-
+      <Notification notification={notification} setNotification={setNotification} />
       <Switch>
         <Route path="/anecdotes/:id">
           <Anecdote anecdotes={anecdotes} />
