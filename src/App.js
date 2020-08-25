@@ -20,10 +20,13 @@ const AnecdoteList = ({ anecdotes }) => (
 
 const Anecdote = ({ anecdotes }) => {
   const id = useParams().id
-  const anecdote = anecdotes.find(a => a.id === Number(id))
+  const anecdote = anecdotes.find(a => a.id === id)
   return(
     <div>
-      {anecdote.content}
+      <h2>{anecdote.content} by {anecdote.author}</h2>
+      <div>Votes: {anecdote.votes}</div>
+      <div>For more info see: <a href={anecdote.info}>{anecdote.info}</a></div>
+      <p></p>
     </div>
   )
 }
@@ -68,7 +71,7 @@ const CreateNew = (props) => {
 
   return (
     <div>
-      <h2>create a new anecdote</h2>
+      <h2>Create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
           content
@@ -83,6 +86,7 @@ const CreateNew = (props) => {
           <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
         </div>
         <button>create</button>
+        <p></p>
       </form>
     </div>
   )
@@ -146,6 +150,7 @@ const App = () => {
         <Link style={padding} to="/create">create new</Link>
         <Link style={padding} to="/about">about</Link>
       </div>
+      <h1>Software anecdotes</h1>
 
       <Switch>
         <Route path="/anecdotes/:id">
