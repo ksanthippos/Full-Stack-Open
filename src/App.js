@@ -4,11 +4,11 @@ import {
   Switch, Route, Link,
   useParams, Redirect
 } from 'react-router-dom'
-
+import { useField } from "./hooks";
 
 
 const AnecdoteList = ({ anecdotes, setRedirect }) => {
-  setRedirect(false)  // resetoidaan uudelleenohjaus
+  //setRedirect(false)  // resetoidaan uudelleenohjaus
 
   return(
   <div>
