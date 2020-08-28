@@ -7,8 +7,7 @@ import {
 import { useField } from "./hooks";
 
 
-const AnecdoteList = ({ anecdotes, setRedirect }) => {
-  //setRedirect(false)  // resetoidaan uudelleenohjaus
+const AnecdoteList = ({ anecdotes }) => {
 
   return(
   <div>
@@ -148,6 +147,7 @@ const App = () => {
     setRedirect(true)
     setNotification(`a new anecdote ${anecdote.content} created!`)
     setTimeout(() => setNotification(null), 10000)
+    setRedirect(false)
   }
 
   const anecdoteById = (id) =>
@@ -179,7 +179,8 @@ const App = () => {
           <Anecdote anecdotes={anecdotes} />
         </Route>
         <Route path="/anecdotes">
-          <AnecdoteList anecdotes={anecdotes} setRedirect={setRedirect}/>
+          {/*<AnecdoteList anecdotes={anecdotes} setRedirect={setRedirect}/>*/}
+          <AnecdoteList anecdotes={anecdotes} />
         </Route>
         <Route path="/create">
           {redirect ? <Redirect to="/anecdotes" /> : <CreateNew addNew={addNew} /> }
