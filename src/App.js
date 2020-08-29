@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import {
   BrowserRouter as Router,
   Switch, Route, Link,
@@ -34,6 +34,7 @@ const Anecdote = ({ anecdotes }) => {
     </div>
   )
 }
+
 
 const About = () => (
   <div>
@@ -76,6 +77,13 @@ const CreateNew = (props) => {
     })
   }
 
+  const handleReset = (e) => {
+    e.preventDefault()
+    contentField.reset()
+    authorField.reset()
+    urlField.reset()
+  }
+
   return (
     <div>
       <h2>Create a new anecdote</h2>
@@ -92,9 +100,9 @@ const CreateNew = (props) => {
           url for more info
           <input {...urlField} />
         </div>
-        <button>Create</button>
-        <p></p>
       </form>
+      <button onClick={handleSubmit}>Create</button>
+      <button onClick={handleReset}>Reset</button>
     </div>
   )
 }
@@ -144,13 +152,17 @@ const App = () => {
   const [notification, setNotification] = useState(null)
   const [redirect, setRedirect] = useState(false) // oma tila tarkkailemaan uudelleenohjauksen tarvetta
 
+  // resetoidaan uudelleenohjauksen tarve aina, kun anekdoottien lista päivitetään (= luotu uusi anekdootti)
+  useEffect(() => {
+    setRedirect(false)
+  }, [anecdotes])
+
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
     setRedirect(true)
     setNotification(`a new anecdote ${anecdote.content} created!`)
     setTimeout(() => setNotification(null), 10000)
-    setRedirect(false)
   }
 
   const anecdoteById = (id) =>
@@ -182,7 +194,7 @@ const App = () => {
           <Anecdote anecdotes={anecdotes} />
         </Route>
         <Route path="/anecdotes">
-          <AnecdoteList anecdotes={anecdotes} />
+          <AnecdoteList anecdotes={anecdotes} redirect={redirect} setRedirect={setRedirect} />
         </Route>
         <Route path="/create">
           {redirect ? <Redirect to="/anecdotes" /> : <CreateNew addNew={addNew} /> }
