@@ -59,6 +59,8 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
+
+  // NÄMÄ JOTENKIN UUSIKSI?
   const contentField = useField('content')
   const authorField = useField('author')
   const urlField = useField('info')
@@ -100,9 +102,9 @@ const CreateNew = (props) => {
           url for more info
           <input {...urlField} />
         </div>
+        <button type="submit">Create</button>
+        <button type="reset" onClick={handleReset}>Reset</button>
       </form>
-      <button onClick={handleSubmit}>Create</button>
-      <button onClick={handleReset}>Reset</button>
     </div>
   )
 }
