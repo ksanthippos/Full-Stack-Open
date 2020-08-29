@@ -59,31 +59,28 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
+  const content = useField('content')
+  const author = useField('author')
+  const info = useField('info')
 
-  // NÄMÄ JOTENKIN UUSIKSI?
-  const contentField = useField('content')
-  const authorField = useField('author')
-  const urlField = useField('info')
-
-  const content = contentField.value
-  const author = authorField.value
-  const info = urlField.value
+  content.reset(false)
+  author.reset(false)
+  info.reset(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     })
   }
 
-  const handleReset = (e) => {
-    e.preventDefault()
-    contentField.reset()
-    authorField.reset()
-    urlField.reset()
+  const handleReset = () => {
+    content.reset(true)
+    author.reset(true)
+    info.reset(true)
   }
 
   return (
@@ -92,15 +89,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input {...contentField} />
+          <input {...content} />
         </div>
         <div>
           author
-          <input {...authorField} />
+          <input {...author} />
         </div>
         <div>
           url for more info
-          <input {...urlField} />
+          <input {...info} />
         </div>
         <button type="submit">Create</button>
         <button type="reset" onClick={handleReset}>Reset</button>
