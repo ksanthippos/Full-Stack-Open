@@ -53,7 +53,6 @@ const About = () => (
 const Footer = () => (
   <div>
     Anecdote app for <a href='https://courses.helsinki.fi/fi/tkt21009'>Full Stack -websovelluskehitys</a>.
-
     See <a href='https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js</a> for the source code.
   </div>
 )
@@ -62,10 +61,6 @@ const CreateNew = (props) => {
   const content = useField('content')
   const author = useField('author')
   const info = useField('info')
-
-  content.reset(false)
-  author.reset(false)
-  info.reset(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -78,9 +73,9 @@ const CreateNew = (props) => {
   }
 
   const handleReset = () => {
-    content.reset(true)
-    author.reset(true)
-    info.reset(true)
+    content.reset()
+    author.reset()
+    info.reset()
   }
 
   return (
@@ -89,15 +84,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input {...content} />
+          <input {...content.reset} />
         </div>
         <div>
           author
-          <input {...author} />
+          <input {...author.reset} />
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input {...info.reset} />
         </div>
         <button type="submit">Create</button>
         <button type="reset" onClick={handleReset}>Reset</button>
