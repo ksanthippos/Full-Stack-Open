@@ -30,7 +30,7 @@ const Anecdote = ({ anecdotes }) => {
       <h2>{anecdote.content} by {anecdote.author}</h2>
       <div>Votes: {anecdote.votes}</div>
       <div>For more info see: <a href={anecdote.info}>{anecdote.info}</a></div>
-      <p></p>
+      <p/>
     </div>
   )
 }
@@ -58,9 +58,13 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const contentField = useField('content')
+  const authorField = useField('author')
+  const urlField = useField('info')
+
+  const content = contentField.value
+  const author = authorField.value
+  const info = urlField.value
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -71,11 +75,6 @@ const CreateNew = (props) => {
       votes: 0
     })
   }
-
-  const contentField = useField('content')
-  const authorField = useField('author')
-  const urlField = useField('info')
-
 
   return (
     <div>
@@ -93,18 +92,6 @@ const CreateNew = (props) => {
           url for more info
           <input {...urlField} />
         </div>
-{/*        <div>
-          content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
-        </div>
-        <div>
-          author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
-        </div>
-        <div>
-          url for more info
-          <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
-        </div>*/}
         <button>Create</button>
         <p></p>
       </form>
@@ -131,7 +118,6 @@ const Notification = ({ notification }) => {
         </div>
     )
   }
-
 }
 
 const App = () => {
@@ -196,7 +182,6 @@ const App = () => {
           <Anecdote anecdotes={anecdotes} />
         </Route>
         <Route path="/anecdotes">
-          {/*<AnecdoteList anecdotes={anecdotes} setRedirect={setRedirect}/>*/}
           <AnecdoteList anecdotes={anecdotes} />
         </Route>
         <Route path="/create">
