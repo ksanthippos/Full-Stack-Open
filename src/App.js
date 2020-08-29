@@ -72,11 +72,28 @@ const CreateNew = (props) => {
     })
   }
 
+  const contentField = useField('content')
+  const authorField = useField('author')
+  const urlField = useField('info')
+
+
   return (
     <div>
       <h2>Create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
+          content
+          <input {...contentField} />
+        </div>
+        <div>
+          author
+          <input {...authorField} />
+        </div>
+        <div>
+          url for more info
+          <input {...urlField} />
+        </div>
+{/*        <div>
           content
           <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
         </div>
@@ -87,8 +104,8 @@ const CreateNew = (props) => {
         <div>
           url for more info
           <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
-        </div>
-        <button>create</button>
+        </div>*/}
+        <button>Create</button>
         <p></p>
       </form>
     </div>
