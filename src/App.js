@@ -22,21 +22,19 @@ const useCountry = (name) => {
     if (name !== '') {
       const promise = axios.get(`https://restcountries.eu/rest/v2/name/${name}?fullText=true`)
       promise.then(response => {
-        setCountry(response)
+        setCountry({country: response.data[0], found: true})
       })
-      promise.catch(error => { console.log(error.response.data) })
+      promise.catch(error => { 
+        setCountry({found: false})
+        console.log(error.response.data)
+      })
     }
   }, [name])
-
-  console.log('useCountry hook 1: ', country) // correct data
-  if (country !== null) {
-    console.log('useCountry hook 2: ', country.found) // undefined
-    console.log('useCountry hook 3: ', country.data) // correct data
-  }
 
   return country
 }
 
+// piti tulla sorkkimaan tätäkin koodia, koska alkuperäisellä en saanut propseja välitettyä
 const Country = ({ country }) => {
 
   if (!country) {
@@ -51,15 +49,18 @@ const Country = ({ country }) => {
     )
   }
 
+  country = {...country.country}  // setCountry asettaa countryn hassusti sisäkkäin joten pitää kaivaa ulos tällä tapaa
+
+  // täällä muutettiin kaikki tyyliin esim. country.data.name ---> country.name
   return (
-      <div>
-        <h3>{country.data.name} </h3>
-        <div>capital {country.data.capital} </div>
-        <div>population {country.data.population}</div>
-        <img src={country.data.flag} height='100' alt={`flag of ${country.data.name}`}/>
-      </div>
+    <div>
+    <h3>{country.name} </h3>
+    <div>capital {country.capital} </div>
+    <div>population {country.population}</div>
+    <img src={country.flag} height='100' alt={`flag of ${country.name}`}/>
+  </div>
   )
-}
+} 
 
 const App = () => {
   const nameInput = useField('text')
