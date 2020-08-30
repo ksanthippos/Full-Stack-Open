@@ -18,7 +18,14 @@ const useField = (type) => {
 const useCountry = (name) => {
   const [country, setCountry] = useState(null)
 
-  useEffect()
+  useEffect(() => {
+    axios
+       /* .get('https://restcountries.eu/rest/v2/all?fields=name;capital;population;languages;flag')*/
+        .get(`https://restcountries.eu/rest/v2/name/${name}?fullText=true`)
+        .then(response => {
+          setCountry(response.data)
+        })
+  }, [country, setCountry])
 
   return country
 }
@@ -58,7 +65,6 @@ const App = () => {
 
   return (
     <div>
-      moi
       <form onSubmit={fetch}>
         <input {...nameInput} />
         <button>find</button>
