@@ -17,15 +17,25 @@ const useField = (type) => {
   }
 }
 
+// **************
+// oma hookki
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
-  // ...
+  axios
+    .get(baseUrl)
+    .then(response => {
+      setResources(response.data)
+    })
+    .catch((error) => {
+      console.log(error);
+    })
 
-  const create = (resource) => {
-    // ...
+  const create = async (resource) => {
+    const response = await axios.post(baseUrl, resource)
+    return response.data
   }
-
+  
   const service = {
     create
   }
@@ -34,6 +44,7 @@ const useResource = (baseUrl) => {
     resources, service
   ]
 }
+// **************
 
 const App = () => {
   const content = useField('text')
@@ -53,7 +64,8 @@ const App = () => {
     personService.create({ name: name.value, number: number.value})
   }
 
-  return (
+
+ return (
     <div>
       <h2>notes</h2>
       <form onSubmit={handleNoteSubmit}>
