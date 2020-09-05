@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Button } from 'react-bootstrap'
 
 const Blog = ({ blog, user, addLike, deleteBlog }) => {
   const [blogVisible, setBlogVisible] = useState(false)
@@ -8,8 +9,8 @@ const Blog = ({ blog, user, addLike, deleteBlog }) => {
   const likedStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: 'solid',
-    borderColor: 'green',
+    // border: 'solid',
+    // borderColor: 'green',
     borderWidth: 2,
     marginBottom: 5
   }
@@ -17,14 +18,9 @@ const Blog = ({ blog, user, addLike, deleteBlog }) => {
   const normalStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
     marginBottom: 5
   }
 
-  const deleteStyle = {
-    color: 'red'
-  }
 
   // handlerit
   const visibleHandler = () => {
@@ -61,35 +57,39 @@ const Blog = ({ blog, user, addLike, deleteBlog }) => {
       { blogVisible ?
         <div style={likedStyle}>
           {blog.title}
-          <button onClick={visibleHandler}>
+          <Button onClick={visibleHandler}>
             hide
-          </button>
+          </Button>
           <p/>
           {blog.author} <p/>
           {blog.url} <p/>
           likes: {blog.likes}
-          <button
-              id="like-button"
-              onClick={likeHandler}
+          <Button
+            id="like-button"
+            onClick={likeHandler}
+            variant="success"
           >
             like
-          </button>
+          </Button>
           <p/>
           { removeVisible ?
-            <button onClick={deleteHandler} style={deleteStyle}>
+            <Button
+              onClick={deleteHandler}
+              variant="danger"
+            >
               remove blog
-            </button> :
+            </Button> :
             null
           }
         </div> :
         <div style={normalStyle}>
           {blog.title} by: {blog.author}
-          <button
-              id="view-button"
-              onClick={visibleHandler}
+          <Button
+            id="view-button"
+            onClick={visibleHandler}
           >
             view
-          </button>
+          </Button>
         </div>
       }
     </div>

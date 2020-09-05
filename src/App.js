@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
@@ -6,6 +7,7 @@ import loginService from './services/login'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import { Table, Button } from 'react-bootstrap'
 
 
 const App = () => {
@@ -70,24 +72,24 @@ const App = () => {
   const addLike = (blog) => {
     const updatedBlog = { ...blog, likes: ++blog.likes }
     blogService
-        .update(blog.id, updatedBlog)
-        .then(returnedBlog => {
-          setBlogs(blogs.map(b => b.id !== blog.id ? b : returnedBlog))
-        })
+      .update(blog.id, updatedBlog)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(b => b.id !== blog.id ? b : returnedBlog))
+      })
   }
 
   const deleteBlog = (blog) => {
     if (window.confirm(`Confirm delete blog: ${blog.title}`))
     {
       blogService
-          .remove(blog.id)
-          .then(() => {
-            blogService // näkymän päivitys
-                .getAll()
-                .then(returnedBlogs => {
-                  setBlogs(returnedBlogs)
-                })
-          })
+        .remove(blog.id)
+        .then(() => {
+          blogService // näkymän päivitys
+            .getAll()
+            .then(returnedBlogs => {
+              setBlogs(returnedBlogs)
+            })
+        })
     }
   }
 
@@ -136,17 +138,25 @@ const App = () => {
   // näkymä
   const blogView = () => ( // eniten tykkäyksiä saanut ylimpänä listassa
     <div id="blog-view">
-      {blogs.sort(function (a, b) {
-        return b.likes - a.likes
-      }).map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          user={user}
-          addLike={addLike}
-          deleteBlog={deleteBlog}
-        />
-      )}
+      <Table striped>
+        <tbody>
+          {blogs.sort(function (a, b) {
+            return b.likes - a.likes
+          }).map(blog =>
+            <tr>
+              <td>
+                <Blog
+                  key={blog.id}
+                  blog={blog}
+                  user={user}
+                  addLike={addLike}
+                  deleteBlog={deleteBlog}
+                />
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
     </div>
   )
 
@@ -169,7 +179,7 @@ const App = () => {
   )
 
   return (
-    <div>
+    <div className="container">
       <Notification
         message={notification}
         notificationClass={notificationClass}
@@ -179,7 +189,7 @@ const App = () => {
         loginForm() :
         <div>
           <p>Logged in as {user.name}</p>
-          <button onClick={handleLogout}>Logout</button>
+          <Button onClick={handleLogout} variant="warning">Logout</Button>
           {blogForm()}
         </div>
       }
