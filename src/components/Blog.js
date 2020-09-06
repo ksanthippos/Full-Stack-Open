@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap'
 import { createStore } from 'redux'
 import { blogReducer } from '../reducers/blogReducer'
 
-const store = createStore(blogReducer)
+// const store = createStore(blogReducer)
 
 
 const Blog = ({ blog, user, addLike, deleteBlog }) => {
