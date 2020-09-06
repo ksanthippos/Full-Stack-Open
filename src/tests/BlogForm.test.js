@@ -7,7 +7,7 @@ test('form gets a proper callback when new blog is created', () => {
   const createBlog = jest.fn()
 
   const component = render(
-      <BlogForm createBlog={createBlog} />
+    <BlogForm createBlog={createBlog} />
   )
 
   const title = component.container.querySelector('#title')

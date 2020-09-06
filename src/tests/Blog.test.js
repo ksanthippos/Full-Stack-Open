@@ -56,7 +56,7 @@ test('event handler called when like is clicked', () => {
   const mockHandler = jest.fn()
 
   const component = render(
-      <Blog blog={blog} user={user} addLike={mockHandler} />
+    <Blog blog={blog} user={user} addLike={mockHandler} />
   )
 
   const buttonView = component.getByText('view')
