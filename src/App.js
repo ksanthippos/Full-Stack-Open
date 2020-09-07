@@ -9,7 +9,7 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import { Table, Button } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
-import { displayNotification } from './reducers/notificationReducer'
+import { addNewNotification, addLikeNotification, loginNotification } from './reducers/notificationReducer'
 
 
 const App = () => {
@@ -17,8 +17,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [notificationClass, setNotificationClass] = useState('success')
-  const [notification, setNotification] = useState(null, notificationClass)
+
 
   // REDUX
   const dispatch = useDispatch()
@@ -52,26 +51,15 @@ const App = () => {
       .create(blogObj)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        dispatch(displayNotification(blogObj.title, 'add new', 5000))
-        /* setNotificationClass('success')
-        setNotification(`Added new blog ${blogObj.title} by ${blogObj.author} succesfully!`, { notificationClass }) */
+        dispatch(addNewNotification(blogObj.title, 5000))
 
         blogService // näkymän päivitys, jotta remove voidaan tarvittaessa tehdä heti
           .getAll()
           .then(returnedBlogs => {
             setBlogs(returnedBlogs)
           })
-
-        /*         setTimeout(() => {
-          setNotification(null)
-        }, 1500) */
       })
       .catch(error => {
-        /*         setNotificationClass('error')
-        setNotification(`Error ${error}: Missing field info`, { notificationClass })
-        setTimeout(() => {
-          setNotification(null)
-        }, 1500) */
         console.log(error)
       })
   }
@@ -82,6 +70,7 @@ const App = () => {
       .update(blog.id, updatedBlog)
       .then(returnedBlog => {
         setBlogs(blogs.map(b => b.id !== blog.id ? b : returnedBlog))
+        dispatch(addLikeNotification(updatedBlog.title, 2000))
       })
   }
 
@@ -119,26 +108,17 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-      setNotificationClass('success')
-      setNotification(`Welcome ${user.name}!`, { notificationClass })
-      setTimeout(() => {
-        setNotification(null)
-      }, 1500)
-
+      dispatch(loginNotification(`Welcome ${username}!`, 3000))
     }
     catch (exception) {
-      setNotificationClass('error')
-      setNotification('Wrong credentials', { notificationClass })
-      setTimeout(() => {
-        setNotification(null)
-      }, 1500)
+      console.log(exception)
     }
   }
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     window.location.reload()
-    dispatch(displayNotification('Logged out', 'logout', 5000))
+    dispatch(loginNotification('Logged out', 5000))
   }
 
 

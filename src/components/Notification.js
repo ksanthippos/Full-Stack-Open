@@ -5,6 +5,7 @@ import { Alert } from 'react-bootstrap'
 
 const Notification = () => {
   const notification = useSelector(state => state.notification)
+  console.log(notification)
 
   if (notification === null)
     return null

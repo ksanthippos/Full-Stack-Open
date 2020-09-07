@@ -1,8 +1,10 @@
 const notificationReducer = (state = null, action) => {
   switch (action.type) {
-  case 'ADD':
+  case 'ADD_NEW':
     return 'Created new blog: ' + action.data.content
-  case 'LOGOUT':
+  case 'ADD_LIKE':
+    return 'You liked blog ' + action.data.content
+  case 'LOGIN':
     return action.data.content
   case 'EMPTY':
     return null
@@ -11,33 +13,45 @@ const notificationReducer = (state = null, action) => {
   }
 }
 
-export const displayNotification = (content, notetype, delay) => {
-  switch(notetype) {
-  case 'add new':
-    return async dispatch => {
+export const addNewNotification = (content, delay) => {
+  return async dispatch => {
+    dispatch({
+      type: 'ADD_NEW',
+      data: { content }
+    })
+    setTimeout(() => {
       dispatch({
-        type: 'ADD',
-        data: { content }
+        type: 'EMPTY'
       })
-      setTimeout(() => {
-        dispatch({
-          type: 'EMPTY'
-        })
-      }, delay)
-    }
-  case 'logout':
-    return async dispatch => {
-      dispatch({
-        type: 'LOGOUT',
-        data: { content }
-      })
-      setTimeout(() => {
-        dispatch({
-          type: 'EMPTY'
-        })
-      }, delay)
-    }
+    }, delay)
+  }
+}
 
+export const addLikeNotification = (content, delay) => {
+  return async dispatch => {
+    dispatch({
+      type: 'ADD_LIKE',
+      data: { content }
+    })
+    setTimeout(() => {
+      dispatch({
+        type: 'EMPTY'
+      })
+    }, delay)
+  }
+}
+
+export const loginNotification = (content, delay) => {
+  return async dispatch => {
+    dispatch({
+      type: 'LOGIN',
+      data: { content }
+    })
+    setTimeout(() => {
+      dispatch({
+        type: 'EMPTY'
+      })
+    }, delay)
   }
 }
 
