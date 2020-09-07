@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
 
-// redux-importit
+/* // redux-importit
 import { createStore } from 'redux'
 import { blogReducer } from '../reducers/blogReducer'
 
-// const store = createStore(blogReducer)
-
+// const store = createStore(blogReducer) */
 
 const Blog = ({ blog, user, addLike, deleteBlog }) => {
   const [blogVisible, setBlogVisible] = useState(false)
