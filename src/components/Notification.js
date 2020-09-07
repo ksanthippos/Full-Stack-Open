@@ -3,17 +3,21 @@ import { useSelector } from 'react-redux'
 import { Alert } from 'react-bootstrap'
 
 
-const Notification = ({ message, notificationClass }) => {
-  if (message === null)
+const Notification = () => {
+  const notification = useSelector(state => state.notification)
+
+  if (notification === null)
     return null
 
-  return (
-    <div>
-      <Alert variant="success">
-        {message}
-      </Alert>
-    </div>
-  )
+  else {
+    return (
+      <div>
+        <Alert variant="success">
+          { notification }
+        </Alert>
+      </div>
+    )
+  }
 }
 
 export default Notification

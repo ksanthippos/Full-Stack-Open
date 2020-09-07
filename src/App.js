@@ -8,6 +8,8 @@ import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import { Table, Button } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { displayNotification } from './reducers/notificationReducer'
 
 
 const App = () => {
@@ -17,6 +19,9 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [notificationClass, setNotificationClass] = useState('success')
   const [notification, setNotification] = useState(null, notificationClass)
+
+  // REDUX
+  const dispatch = useDispatch()
 
   const blogFormRef = React.createRef()
 
@@ -47,8 +52,9 @@ const App = () => {
       .create(blogObj)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        setNotificationClass('success')
-        setNotification(`Added new blog ${blogObj.title} by ${blogObj.author} succesfully!`, { notificationClass })
+        dispatch(displayNotification(blogObj.title, 'add new', 5000))
+        /* setNotificationClass('success')
+        setNotification(`Added new blog ${blogObj.title} by ${blogObj.author} succesfully!`, { notificationClass }) */
 
         blogService // näkymän päivitys, jotta remove voidaan tarvittaessa tehdä heti
           .getAll()
@@ -56,16 +62,17 @@ const App = () => {
             setBlogs(returnedBlogs)
           })
 
-        setTimeout(() => {
+        /*         setTimeout(() => {
           setNotification(null)
-        }, 1500)
+        }, 1500) */
       })
       .catch(error => {
-        setNotificationClass('error')
+        /*         setNotificationClass('error')
         setNotification(`Error ${error}: Missing field info`, { notificationClass })
         setTimeout(() => {
           setNotification(null)
-        }, 1500)
+        }, 1500) */
+        console.log(error)
       })
   }
 
@@ -131,6 +138,7 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     window.location.reload()
+    dispatch(displayNotification('Logged out', 'logout', 5000))
   }
 
 
@@ -180,10 +188,7 @@ const App = () => {
 
   return (
     <div className="container">
-      <Notification
-        message={notification}
-        notificationClass={notificationClass}
-      />
+      <Notification />
       <h2>Blogs</h2>
       {user === null ?
         loginForm() :
