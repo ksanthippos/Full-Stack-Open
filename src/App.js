@@ -18,9 +18,9 @@ import { storeUser } from './reducers/loginReducer'
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
   const blogFormRef = React.createRef()
   const dispatch = useDispatch()
-  const user = null
 
   // alustukset
   useEffect(() => {
@@ -36,12 +36,13 @@ const App = () => {
       dispatch(storeUser(user))
       blogService.setToken(user.token)
     }
-  }, [])
+  }, [dispatch])
 
   // storesta
   const blogs = useSelector(({ blog }) => { return blog })
-  // const user = useSelector(({ login }) => { return login })
+  const user = useSelector(({ login }) => { return login })
   console.log('user from store: ', user)
+
   // **********************************
   // datan käsittely
   const addBlog = (blogObj) => {

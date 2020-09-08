@@ -1,4 +1,4 @@
-// import loginService from '../services/login'
+import loginService from '../services/login'
 
 const loginReducer = (state = null, action) => {
   switch(action.type) {
@@ -11,10 +11,12 @@ const loginReducer = (state = null, action) => {
 
 export const storeUser = (user) => {
   console.log('user inside reducer: ', user)
+
   return async dispatch => {
+    const login = await loginService.login(user)
     dispatch({
       type: 'LOGIN',
-      data: user
+      data: login
     })
   }
 }
