@@ -22,6 +22,7 @@ const App = () => {
   const blogFormRef = React.createRef()
   const dispatch = useDispatch()
 
+
   // alustukset
   useEffect(() => {
     dispatch(showAllBlogs())
@@ -30,9 +31,7 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
-      // setUser(user)
       const user = JSON.parse(loggedUserJSON)
-      console.log('user inside useEffect: ', user)
       dispatch(storeUser(user))
       blogService.setToken(user.token)
     }
@@ -40,8 +39,7 @@ const App = () => {
 
   // storesta
   const blogs = useSelector(({ blog }) => { return blog })
-  const user = useSelector(({ login }) => { return login })
-  console.log('user from store: ', user)
+  const user = useSelector(({ login }) => { return login }) // vielä null
 
   // **********************************
   // datan käsittely
@@ -106,7 +104,6 @@ const App = () => {
       )
 
       blogService.setToken(user.token)
-      // setUser(user)
       dispatch(storeUser(user))
       setUsername('')
       setPassword('')
