@@ -12,18 +12,18 @@ import { Table, Button } from 'react-bootstrap'
 // REDUX
 import { useDispatch, useSelector } from 'react-redux'
 import { addNewNotification, addLikeNotification, loginNotification } from './reducers/notificationReducer'
-import { showAllBlogs } from './reducers/blogReducer'
+import { showAllBlogs, updateLikedBlog } from './reducers/blogReducer'
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
-  // REDUX
-  const dispatch = useDispatch()
-
   const blogFormRef = React.createRef()
 
+  const dispatch = useDispatch()
+
+  // alustukset
   useEffect(() => {
     dispatch(showAllBlogs())
   }, [dispatch])
@@ -39,6 +39,7 @@ const App = () => {
 
   const blogs = useSelector(({ blog }) => { return blog })
 
+
   // **********************************
   // datan käsittely
   const addBlog = (blogObj) => {
@@ -46,14 +47,13 @@ const App = () => {
 
     blogService
       .create(blogObj)
-      .then(returnedBlog => {
-        // setBlogs(blogs.concat(returnedBlog))
+      .then(() => {
         dispatch(addNewNotification(blogObj.title, 5000))
 
         blogService // näkymän päivitys, jotta remove voidaan tarvittaessa tehdä heti
           .getAll()
-          .then(returnedBlogs => {
-            // setBlogs(returnedBlogs)
+          .then(() => {
+            dispatch(showAllBlogs())
           })
       })
       .catch(error => {
@@ -66,21 +66,20 @@ const App = () => {
     blogService
       .update(blog.id, updatedBlog)
       .then(returnedBlog => {
-        // setBlogs(blogs.map(b => b.id !== blog.id ? b : returnedBlog))
+        dispatch(updateLikedBlog(blog, returnedBlog))
         dispatch(addLikeNotification(updatedBlog.title, 2000))
       })
   }
 
   const deleteBlog = (blog) => {
-    if (window.confirm(`Confirm delete blog: ${blog.title}`))
-    {
+    if (window.confirm(`Confirm delete blog: ${blog.title}`)) {
       blogService
         .remove(blog.id)
         .then(() => {
           blogService // näkymän päivitys
             .getAll()
-            .then(returnedBlogs => {
-              // setBlogs(returnedBlogs)
+            .then(() => {
+              dispatch(showAllBlogs())
             })
         })
     }
@@ -122,7 +121,7 @@ const App = () => {
   // **********************************
   // näkymä
   const blogView = () => {
-    if (blogs !== null) { // ehdollinen renderöinti: blogien haku voi kestää
+    if (blogs !== null) {
       return(
         <div id="blog-view">
           <Table striped>
