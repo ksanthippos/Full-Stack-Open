@@ -13,15 +13,14 @@ import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { addNewNotification, addLikeNotification, loginNotification, deleteBlogNotification } from './reducers/notificationReducer'
 import { showAllBlogs, updateLikedBlog } from './reducers/blogReducer'
+import { storeUser } from './reducers/loginReducer'
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
-
   const blogFormRef = React.createRef()
-
   const dispatch = useDispatch()
+  const user = null
 
   // alustukset
   useEffect(() => {
@@ -31,15 +30,18 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
+      // setUser(user)
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      console.log('user inside useEffect: ', user)
+      dispatch(storeUser(user))
       blogService.setToken(user.token)
     }
   }, [])
 
+  // storesta
   const blogs = useSelector(({ blog }) => { return blog })
-
-
+  // const user = useSelector(({ login }) => { return login })
+  console.log('user from store: ', user)
   // **********************************
   // datan käsittely
   const addBlog = (blogObj) => {
@@ -103,7 +105,8 @@ const App = () => {
       )
 
       blogService.setToken(user.token)
-      setUser(user)
+      // setUser(user)
+      dispatch(storeUser(user))
       setUsername('')
       setPassword('')
       dispatch(loginNotification(`Welcome ${username}!`, 3000))
@@ -116,7 +119,6 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     window.location.reload()
-    dispatch(loginNotification('Logged out', 5000))
   }
 
 
