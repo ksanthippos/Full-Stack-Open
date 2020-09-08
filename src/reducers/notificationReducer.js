@@ -4,6 +4,8 @@ const notificationReducer = (state = null, action) => {
     return 'Created new blog: ' + action.data.content
   case 'ADD_LIKE':
     return 'You liked blog ' + action.data.content
+  case 'DELETE':
+    return 'Blog ' + action.data.content + ' has been deleted'
   case 'LOGIN':
     return action.data.content
   case 'EMPTY':
@@ -45,6 +47,20 @@ export const loginNotification = (content, delay) => {
   return async dispatch => {
     dispatch({
       type: 'LOGIN',
+      data: { content }
+    })
+    setTimeout(() => {
+      dispatch({
+        type: 'EMPTY'
+      })
+    }, delay)
+  }
+}
+
+export const deleteBlogNotification = (content, delay) => {
+  return async dispatch => {
+    dispatch({
+      type: 'DELETE',
       data: { content }
     })
     setTimeout(() => {

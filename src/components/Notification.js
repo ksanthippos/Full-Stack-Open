@@ -5,7 +5,6 @@ import { Alert } from 'react-bootstrap'
 
 const Notification = () => {
   const notification = useSelector(state => state.notification)
-  console.log(notification)
 
   if (notification === null)
     return null
@@ -13,9 +12,15 @@ const Notification = () => {
   else {
     return (
       <div>
-        <Alert variant="success">
-          { notification }
-        </Alert>
+        { notification.includes('deleted') ?  // eri värillä poistonotifikaatio
+          <Alert variant="warning">
+            { notification }
+          </Alert>
+          :
+          <Alert variant="success">
+            { notification }
+          </Alert>
+        }
       </div>
     )
   }

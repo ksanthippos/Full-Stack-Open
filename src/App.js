@@ -11,7 +11,7 @@ import { Table, Button } from 'react-bootstrap'
 
 // REDUX
 import { useDispatch, useSelector } from 'react-redux'
-import { addNewNotification, addLikeNotification, loginNotification } from './reducers/notificationReducer'
+import { addNewNotification, addLikeNotification, loginNotification, deleteBlogNotification } from './reducers/notificationReducer'
 import { showAllBlogs, updateLikedBlog } from './reducers/blogReducer'
 
 const App = () => {
@@ -73,6 +73,7 @@ const App = () => {
 
   const deleteBlog = (blog) => {
     if (window.confirm(`Confirm delete blog: ${blog.title}`)) {
+      const title = blog.title  // otsikko talteen ennen poistoa
       blogService
         .remove(blog.id)
         .then(() => {
@@ -80,6 +81,7 @@ const App = () => {
             .getAll()
             .then(() => {
               dispatch(showAllBlogs())
+              dispatch(deleteBlogNotification(title, 3000))
             })
         })
     }
