@@ -10,29 +10,23 @@ import BlogForm from './components/BlogForm'
 import { Table, Button } from 'react-bootstrap'
 
 // REDUX
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addNewNotification, addLikeNotification, loginNotification } from './reducers/notificationReducer'
 import { showAllBlogs } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-
 
   // REDUX
   const dispatch = useDispatch()
 
   const blogFormRef = React.createRef()
 
-  // **********************************
-  // effectit
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
-  }, [])
+    dispatch(showAllBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -43,6 +37,7 @@ const App = () => {
     }
   }, [])
 
+  const blogs = useSelector(({ blog }) => { return blog })
 
   // **********************************
   // datan käsittely
@@ -52,13 +47,13 @@ const App = () => {
     blogService
       .create(blogObj)
       .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
+        // setBlogs(blogs.concat(returnedBlog))
         dispatch(addNewNotification(blogObj.title, 5000))
 
         blogService // näkymän päivitys, jotta remove voidaan tarvittaessa tehdä heti
           .getAll()
           .then(returnedBlogs => {
-            setBlogs(returnedBlogs)
+            // setBlogs(returnedBlogs)
           })
       })
       .catch(error => {
@@ -71,7 +66,7 @@ const App = () => {
     blogService
       .update(blog.id, updatedBlog)
       .then(returnedBlog => {
-        setBlogs(blogs.map(b => b.id !== blog.id ? b : returnedBlog))
+        // setBlogs(blogs.map(b => b.id !== blog.id ? b : returnedBlog))
         dispatch(addLikeNotification(updatedBlog.title, 2000))
       })
   }
@@ -85,7 +80,7 @@ const App = () => {
           blogService // näkymän päivitys
             .getAll()
             .then(returnedBlogs => {
-              setBlogs(returnedBlogs)
+              // setBlogs(returnedBlogs)
             })
         })
     }
@@ -126,29 +121,33 @@ const App = () => {
 
   // **********************************
   // näkymä
-  const blogView = () => ( // eniten tykkäyksiä saanut ylimpänä listassa
-    <div id="blog-view">
-      <Table striped>
-        <tbody>
-          {blogs.sort(function (a, b) {
-            return b.likes - a.likes
-          }).map(blog =>
-            <tr>
-              <td>
-                <Blog
-                  key={blog.id}
-                  blog={blog}
-                  user={user}
-                  addLike={addLike}
-                  deleteBlog={deleteBlog}
-                />
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
-    </div>
-  )
+  const blogView = () => {
+    if (blogs !== null) { // ehdollinen renderöinti: blogien haku voi kestää
+      return(
+        <div id="blog-view">
+          <Table striped>
+            <tbody>
+              {blogs.sort(function (a, b) {
+                return b.likes - a.likes
+              }).map(blog =>
+                <tr>
+                  <td>
+                    <Blog
+                      key={blog.id}
+                      blog={blog}
+                      user={user}
+                      addLike={addLike}
+                      deleteBlog={deleteBlog}
+                    />
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </div>
+      )
+    }
+  }
 
   const blogForm = () => (
     <Togglable buttonLabel='New blog' ref={blogFormRef}>
