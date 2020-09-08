@@ -8,9 +8,11 @@ import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import { Table, Button } from 'react-bootstrap'
+
+// REDUX
 import { useDispatch } from 'react-redux'
 import { addNewNotification, addLikeNotification, loginNotification } from './reducers/notificationReducer'
-
+import { showAllBlogs } from './reducers/blogReducer'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
