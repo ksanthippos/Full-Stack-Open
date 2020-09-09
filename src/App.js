@@ -229,7 +229,7 @@ const App = () => {
                 <Button onClick={handleLogout} variant="warning">Logout</Button>
               </div>
             }
-            <Blog user={user} blogs={blogs} addLike={addLike} deleteBlog={deleteBlog} />
+            <Blog allBlogs={blogs} />
           </Route>
           <Route path="/users/:id">
             {user === null ?

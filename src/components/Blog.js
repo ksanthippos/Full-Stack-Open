@@ -2,17 +2,17 @@ import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 
-const Blog = ({ user, blogs, addLike, deleteBlog }) => {
-  const [removeVisible, setRemoveVisible] = useState(false)
+const Blog = ({ allBlogs }) => {
+  // const [removeVisible, setRemoveVisible] = useState(false)
   const id = useParams().id
 
-  if (!blogs) {
+  if (!allBlogs) {
     return null
   }
 
-  const blog = blogs.find(b => b.id === id)
+  const blog = allBlogs.find(b => b.id === id)
   
-  // tarkistetaan, onko oikeus nähdä delete-nappi
+/*   // tarkistetaan, onko oikeus nähdä delete-nappi
   if (user !== null) {
     if (user.username !== blog.user.username) {
       setRemoveVisible(false)
@@ -28,11 +28,15 @@ const Blog = ({ user, blogs, addLike, deleteBlog }) => {
 
   const deleteHandler = () => {
     deleteBlog(blog)
-  }
+  } */
 
   return(
     <div>
-      yksittäinen blogi!
+      <h2>{blog.title}</h2>
+      Author: {blog.author} <p/>
+      Url:{blog.url} <p/>
+      Likes: {blog.likes}
+      
 {/*       <h2>{blog.title}</h2>
           Author: {blog.author} <p/>
           Url:{blog.url} <p/>
