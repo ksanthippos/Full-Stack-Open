@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-const Person = (person) => {
+const Person = ({ person }) => {
 
   return(
     <div>
-      Here is {person.name}!
+      {person.name} has {person.blogs.length} blogs
     </div>
   )
 }

@@ -47,7 +47,7 @@ const App = () => {
   const user = useSelector(({ login }) => { return login })
   const persons = useSelector(({ person }) => { return person })
 
-  console.log('persons start: ', persons)
+
 
   // **********************************
   // datan käsittely
@@ -63,6 +63,7 @@ const App = () => {
           .getAll()
           .then(() => {
             dispatch(showAllBlogs())
+            dispatch(showAllPersons())
           })
       })
       .catch(error => {
@@ -90,6 +91,7 @@ const App = () => {
             .getAll()
             .then(() => {
               dispatch(showAllBlogs())
+              dispatch(showAllPersons())
               dispatch(deleteBlogNotification(title, 3000))
             })
         })
@@ -134,6 +136,7 @@ const App = () => {
     if (blogs !== null) {
       return(
         <div id="blog-view">
+          <h2>Blogs</h2>
           <Table striped>
             <tbody>
               {blogs.sort(function (a, b) {
@@ -159,25 +162,28 @@ const App = () => {
   }
 
   const personView = () => {
-    console.log('persons: ', persons)
     if (persons !== null) {
       return(
         <div>
           <h2>Users</h2>
-          <table>
-            <tbody>
-              {persons.map(person =>
+          <Table striped>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Blogs created</th>
+              </tr>
+            </thead>
+            {persons.sort(function (a, b) {
+              return b.blogs.length - a.blogs.length
+            }).map(person =>
+              <tbody>
                 <tr>
-                  <td>
-                    <Person
-                      key={person.id}
-                      person={person}
-                    />
-                  </td>
+                  <td>{person.name}</td>
+                  <td>{person.blogs.length}</td>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </tbody>
+            )}
+          </Table>
         </div>
       )
     }
@@ -205,7 +211,6 @@ const App = () => {
   return (
     <div className="container">
       <Notification />
-      <h2>Blogs</h2>
       {user === null ?
         loginForm() :
         <div>
@@ -214,8 +219,9 @@ const App = () => {
           {blogForm()}
         </div>
       }
-      {/* {blogView()} */}
+      <p/>
       {personView()}
+      {blogView()}
     </div>
   )
 }

@@ -12,7 +12,6 @@ const personReducer = (state = null, action) => {
 export const showAllPersons = () => {
   return async dispatch => {
     const persons = await personService.getAll()
-    console.log('persons reducer: ', persons)
     dispatch({
       type: 'SHOW_PERSONS',
       data: persons
