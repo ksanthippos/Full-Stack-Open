@@ -7,7 +7,7 @@ import loginService from './services/login'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
-import Person from './components/Person'
+// import Person from './components/Person'
 import { Table, Button } from 'react-bootstrap'
 
 // REDUX
