@@ -136,17 +136,18 @@ const App = () => {
   }
 
 
-  // ********************************** 
+  // **********************************
   // näkymät
   const blogView = () => {
     if (blogs !== null) {
       return(
-        <div id="blog-view">
+        <div>
           <h2>All blogs</h2>
           <Table striped>
             <thead>
               <tr>
-                <th>Title</th>              
+                <th>Title</th>
+                <th>Likes</th>
               </tr>
             </thead>
             {blogs.sort(function (a, b) {
@@ -154,7 +155,8 @@ const App = () => {
             }).map(blog =>
               <tbody>
                 <tr>
-                  <Link to={`/blogs/${blog.id}`}><td>{blog.title}</td></Link>                
+                  <Link to={`/blogs/${blog.id}`}><td>{blog.title} by {blog.author}</td></Link>
+                  <td>{blog.likes}</td>
                 </tr>
               </tbody>
             )}
@@ -209,7 +211,7 @@ const App = () => {
       />
     </Togglable>
   )
-  
+
   return (
     <Router>
       <div className="container">
@@ -221,7 +223,7 @@ const App = () => {
           <Notification />
         </div>
         <Switch>
-        <Route path="/blogs/:id">
+          <Route path="/blogs/:id">
             {user === null ?
               loginForm() :
               <div>
@@ -229,7 +231,9 @@ const App = () => {
                 <Button onClick={handleLogout} variant="warning">Logout</Button>
               </div>
             }
-            <Blog allBlogs={blogs} />
+            <Blog
+              allBlogs={blogs}
+              addLike={addLike} />
           </Route>
           <Route path="/users/:id">
             {user === null ?
@@ -270,7 +274,7 @@ const App = () => {
                 <Button onClick={handleLogout} variant="warning">Logout</Button>
                 {blogForm()}
               </div>
-            }        
+            }
             {blogView()}
           </Route>
         </Switch>

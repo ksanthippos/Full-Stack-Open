@@ -23,12 +23,14 @@ const Person = ({ allBlogs }) => {
         <thead>
           <tr>
             <th>Title</th>
+            <th>Likes</th>
           </tr>
         </thead>
         {blogs.map(blog =>
           <tbody>
             <tr>
               <td>{blog.title}</td>
+              <td>{blog.likes}</td>
             </tr>
           </tbody>
         )}
