@@ -6,11 +6,15 @@ import { Table } from 'react-bootstrap'
 const Person = ({ allBlogs }) => {
   const id = useParams().id
   let name
+
+  if (!allBlogs) {
+    return null
+  }
+
   const blogs = allBlogs.filter(blog =>
     blog.user.id === id ?
       name = blog.user.name :
       null)
-  console.log(blogs)
 
   return(
     <div>
@@ -31,6 +35,7 @@ const Person = ({ allBlogs }) => {
       </Table>
     </div>
   )
+
 }
 
 export default Person
