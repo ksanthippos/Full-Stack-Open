@@ -9,6 +9,9 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 // import Person from './components/Person'
 import { Table, Button } from 'react-bootstrap'
+import {
+  BrowserRouter as Router, Switch, Route, Link
+} from 'react-router-dom'
 
 // REDUX
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +26,10 @@ const App = () => {
 
   const blogFormRef = React.createRef()
   const dispatch = useDispatch()
+
+  const padding = {
+    padding: 5
+  }
 
   // alustukset
   useEffect(() => {
@@ -209,20 +216,39 @@ const App = () => {
   )
 
   return (
-    <div className="container">
-      <Notification />
-      {user === null ?
-        loginForm() :
+    <Router>
+      <div className="container">
         <div>
-          <p>Logged in as {user.name}</p>
-          <Button onClick={handleLogout} variant="warning">Logout</Button>
-          {blogForm()}
+          <Link to="/" style={padding}>blogs</Link>
+          <Link to="/users" style={padding}>users</Link>
         </div>
-      }
-      <p/>
-      {personView()}
-      {blogView()}
-    </div>
+        <Switch>
+          <Route path="/users">
+            {user === null ?
+              loginForm() :
+              <div>
+                <p>Logged in as {user.name}</p>
+                <Button onClick={handleLogout} variant="warning">Logout</Button>
+                {personView()}
+              </div>
+            }
+          </Route>
+          <Route path="/">
+            <Notification />
+            {user === null ?
+              loginForm() :
+              <div>
+                <p>Logged in as {user.name}</p>
+                <Button onClick={handleLogout} variant="warning">Logout</Button>
+                {blogForm()}
+              </div>
+            }
+            <p/>
+            {blogView()}
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   )
 }
 
