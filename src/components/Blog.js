@@ -1,45 +1,24 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
+import { useParams } from 'react-router-dom'
 
-const Blog = ({ blog, user, addLike, deleteBlog }) => {
-  const [blogVisible, setBlogVisible] = useState(false)
+const Blog = ({ user, blogs, addLike, deleteBlog }) => {
   const [removeVisible, setRemoveVisible] = useState(false)
+  const id = useParams().id
 
-  // tyylit
-  const likedStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    // border: 'solid',
-    // borderColor: 'green',
-    borderWidth: 2,
-    marginBottom: 5
+  if (!blogs) {
+    return null
   }
 
-  const normalStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    marginBottom: 5
-  }
-
-
-  // handlerit
-  const visibleHandler = () => {
-
-    // tarkistetaan onko blogin lisääjän username sama kuin kirjautuneella käyttäjällä
-    if (user !== null) {
-      if (user.username !== blog.user.username) {
-        setRemoveVisible(false)
-      } else {
-        setRemoveVisible(true)
-      }
-    }
-
-    // bloginäkymän view/hide-toiminnallisuus
-    if (blogVisible) {
-      setBlogVisible(false)
-    }
+  const blog = blogs.find(b => b.id === id)
+  
+  // tarkistetaan, onko oikeus nähdä delete-nappi
+  if (user !== null) {
+    if (user.username !== blog.user.username) {
+      setRemoveVisible(false)
+    } 
     else {
-      setBlogVisible(true)
+      setRemoveVisible(true)
     }
   }
 
@@ -51,47 +30,25 @@ const Blog = ({ blog, user, addLike, deleteBlog }) => {
     deleteBlog(blog)
   }
 
-  // näkymä
-  return (
+  return(
     <div>
-      { blogVisible ?
-        <div style={likedStyle}>
-          {blog.title}
-          <Button onClick={visibleHandler}>
-            hide
-          </Button>
-          <p/>
-          {blog.author} <p/>
-          {blog.url} <p/>
-          likes: {blog.likes}
-          <Button
-            id="like-button"
-            onClick={likeHandler}
-            variant="success"
-          >
-            like
-          </Button>
-          <p/>
-          { removeVisible ?
-            <Button
-              onClick={deleteHandler}
-              variant="danger"
-            >
-              remove blog
-            </Button> :
-            null
-          }
-        </div> :
-        <div style={normalStyle}>
-          {blog.title} by: {blog.author}
-          <Button
-            id="view-button"
-            onClick={visibleHandler}
-          >
-            view
-          </Button>
-        </div>
-      }
+      yksittäinen blogi!
+{/*       <h2>{blog.title}</h2>
+          Author: {blog.author} <p/>
+          Url:{blog.url} <p/>
+          Likes: {blog.likes}
+      <Button
+        id="like-button"
+        onClick={likeHandler}
+        variant="success">
+          Like
+      </Button>
+      { removeVisible ?
+        <Button onClick={deleteHandler} variant="danger">
+          remove blog
+        </Button> :
+        null
+      } */}
     </div>
   )
 }

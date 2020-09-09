@@ -4,8 +4,6 @@ const personReducer = (state = null, action) => {
   switch(action.type) {
   case 'SHOW_PERSONS':
     return action.data
-  case 'SHOW_USER_BLOGS':
-    return action.data
   default:
     return state
   }

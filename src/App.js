@@ -136,31 +136,28 @@ const App = () => {
   }
 
 
-  // **********************************
+  // ********************************** 
   // näkymät
   const blogView = () => {
     if (blogs !== null) {
       return(
         <div id="blog-view">
-          <h2>Blogs</h2>
+          <h2>All blogs</h2>
           <Table striped>
-            <tbody>
-              {blogs.sort(function (a, b) {
-                return b.likes - a.likes
-              }).map(blog =>
+            <thead>
+              <tr>
+                <th>Title</th>              
+              </tr>
+            </thead>
+            {blogs.sort(function (a, b) {
+              return b.likes - a.likes
+            }).map(blog =>
+              <tbody>
                 <tr>
-                  <td>
-                    <Blog
-                      key={blog.id}
-                      blog={blog}
-                      user={user}
-                      addLike={addLike}
-                      deleteBlog={deleteBlog}
-                    />
-                  </td>
+                  <Link to={`/blogs/${blog.id}`}><td>{blog.title}</td></Link>                
                 </tr>
-              )}
-            </tbody>
+              </tbody>
+            )}
           </Table>
         </div>
       )
@@ -212,15 +209,28 @@ const App = () => {
       />
     </Togglable>
   )
-
+  
   return (
     <Router>
       <div className="container">
         <div>
-          <Link to="/" style={padding}>blogs</Link>
-          <Link to="/users" style={padding}>users</Link>
+          <Link to="/blogs" style={padding}>Blogs</Link>
+          <Link to="/users" style={padding}>Users</Link>
+        </div>
+        <div>
+          <Notification />
         </div>
         <Switch>
+        <Route path="/blogs/:id">
+            {user === null ?
+              loginForm() :
+              <div>
+                <p>Logged in as {user.name}</p>
+                <Button onClick={handleLogout} variant="warning">Logout</Button>
+              </div>
+            }
+            <Blog user={user} blogs={blogs} addLike={addLike} deleteBlog={deleteBlog} />
+          </Route>
           <Route path="/users/:id">
             {user === null ?
               loginForm() :
@@ -230,6 +240,17 @@ const App = () => {
               </div>
             }
             <Person allBlogs={blogs} />
+          </Route>
+          <Route path="/blogs">
+            {user === null ?
+              loginForm() :
+              <div>
+                <p>Logged in as {user.name}</p>
+                <Button onClick={handleLogout} variant="warning">Logout</Button>
+                {blogForm()}
+                {blogView()}
+              </div>
+            }
           </Route>
           <Route path="/users">
             {user === null ?
@@ -242,7 +263,6 @@ const App = () => {
             }
           </Route>
           <Route path="/">
-            <Notification />
             {user === null ?
               loginForm() :
               <div>
@@ -250,8 +270,7 @@ const App = () => {
                 <Button onClick={handleLogout} variant="warning">Logout</Button>
                 {blogForm()}
               </div>
-            }
-            <p/>
+            }        
             {blogView()}
           </Route>
         </Switch>
