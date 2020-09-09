@@ -7,6 +7,7 @@ import loginService from './services/login'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Person from './components/Person'
 import { Table, Button } from 'react-bootstrap'
 
 // REDUX
@@ -14,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addNewNotification, addLikeNotification, loginNotification, deleteBlogNotification } from './reducers/notificationReducer'
 import { showAllBlogs, updateLikedBlog } from './reducers/blogReducer'
 import { storeUser } from './reducers/loginReducer'
+import { showAllPersons } from './reducers/personReducer'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -22,10 +24,13 @@ const App = () => {
   const blogFormRef = React.createRef()
   const dispatch = useDispatch()
 
-
   // alustukset
   useEffect(() => {
     dispatch(showAllBlogs())
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(showAllPersons())
   }, [dispatch])
 
   useEffect(() => {
@@ -39,7 +44,10 @@ const App = () => {
 
   // storesta
   const blogs = useSelector(({ blog }) => { return blog })
-  const user = useSelector(({ login }) => { return login }) // vielä null
+  const user = useSelector(({ login }) => { return login })
+  const persons = useSelector(({ person }) => { return person })
+
+  console.log('persons start: ', persons)
 
   // **********************************
   // datan käsittely
@@ -121,7 +129,7 @@ const App = () => {
 
 
   // **********************************
-  // näkymä
+  // näkymät
   const blogView = () => {
     if (blogs !== null) {
       return(
@@ -149,6 +157,32 @@ const App = () => {
       )
     }
   }
+
+  const personView = () => {
+    console.log('persons: ', persons)
+    if (persons !== null) {
+      return(
+        <div>
+          <h2>Users</h2>
+          <table>
+            <tbody>
+              {persons.map(person =>
+                <tr>
+                  <td>
+                    <Person
+                      key={person.id}
+                      person={person}
+                    />
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+  }
+
 
   const blogForm = () => (
     <Togglable buttonLabel='New blog' ref={blogFormRef}>
@@ -180,7 +214,8 @@ const App = () => {
           {blogForm()}
         </div>
       }
-      {blogView()}
+      {/* {blogView()} */}
+      {personView()}
     </div>
   )
 }

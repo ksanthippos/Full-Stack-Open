@@ -14,6 +14,7 @@ const blogReducer = (state = null, action) => {
 export const showAllBlogs = () => {
   return async dispatch => {
     const blogs = await blogService.getAll()
+    console.log('blogs reducer: ', blogs)
     dispatch({
       type: 'SHOW_BLOGS',
       data: blogs
