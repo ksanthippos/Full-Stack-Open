@@ -7,7 +7,7 @@ import loginService from './services/login'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
-// import Person from './components/Person'
+import Person from './components/Person'
 import { Table, Button } from 'react-bootstrap'
 import {
   BrowserRouter as Router, Switch, Route, Link
@@ -53,7 +53,6 @@ const App = () => {
   const blogs = useSelector(({ blog }) => { return blog })
   const user = useSelector(({ login }) => { return login })
   const persons = useSelector(({ person }) => { return person })
-
 
 
   // **********************************
@@ -185,7 +184,7 @@ const App = () => {
             }).map(person =>
               <tbody>
                 <tr>
-                  <td>{person.name}</td>
+                  <Link to={`/users/${person.id}`}><td>{person.name}</td></Link>
                   <td>{person.blogs.length}</td>
                 </tr>
               </tbody>
@@ -195,7 +194,6 @@ const App = () => {
       )
     }
   }
-
 
   const blogForm = () => (
     <Togglable buttonLabel='New blog' ref={blogFormRef}>
@@ -223,6 +221,16 @@ const App = () => {
           <Link to="/users" style={padding}>users</Link>
         </div>
         <Switch>
+          <Route path="/users/:id">
+            {user === null ?
+              loginForm() :
+              <div>
+                <p>Logged in as {user.name}</p>
+                <Button onClick={handleLogout} variant="warning">Logout</Button>
+              </div>
+            }
+            <Person allBlogs={blogs} />
+          </Route>
           <Route path="/users">
             {user === null ?
               loginForm() :
