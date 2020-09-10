@@ -54,6 +54,7 @@ const Blog = ({ allBlogs, addLike, loggedUser, deleteBlog }) => {
           </tbody>
         )}
       </table>
+      {/* kommentin lisääminen */}
     </div>
   )
 }

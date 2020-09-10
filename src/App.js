@@ -277,7 +277,7 @@ const App = () => {
         <div>
           <p/>
           <hr/>
-          <em>Bloglist app by ksanthippos (2020)</em>
+          <em>React-app by ksanthippos (2020)</em>
         </div>
       </div>
     </Router>
