@@ -219,16 +219,10 @@ const App = () => {
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
                 <Nav.Link href="#" as="span">
-                  { user
-                    ? <Link to="/blogs" style={padding}>Blogs</Link>
-                    : null
-                  }
+                  <Link to="/blogs" style={padding}>Blogs</Link>
                 </Nav.Link>
                 <Nav.Link href="#" as="span">
-                  { user
-                    ? <Link to="/users" style={padding}>Users</Link>
-                    : null
-                  }
+                  <Link to="/users" style={padding}>Users</Link>
                 </Nav.Link>
                 <Nav.Link href="#" as="span">
                   { user
@@ -245,25 +239,40 @@ const App = () => {
         </div>
         <Switch>
           <Route path="/blogs/:id">
-            <Blog
-              allBlogs={blogs}
-              addLike={addLike} />
+            { user
+              ? <Blog
+                allBlogs={blogs}
+                addLike={addLike} />
+              : <Redirect to="/login" />
+            }
           </Route>
           <Route path="/users/:id">
-            <Person allBlogs={blogs} />
+            { user
+              ? <Person allBlogs={blogs} />
+              : <Redirect to="/login" />
+            }
           </Route>
           <Route path="/blogs">
-            {blogForm()}
+            { user
+              ? blogForm()
+              : null
+            }
             {blogView()}
           </Route>
           <Route path="/users">
-            {personView()}
+            { user
+              ? personView()
+              : <Redirect to="/login" />
+            }
           </Route>
           <Route path="/login">
-            {loginForm()}
+            { user
+              ? <Redirect to="/blogs" />
+              : loginForm()
+            }
           </Route>
           <Route path="/">
-            {blogView()}
+            <Redirect to="/blogs" />
           </Route>
         </Switch>
       </div>
