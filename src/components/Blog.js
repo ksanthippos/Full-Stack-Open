@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-key */
-import React from 'react'
-import { Button } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Button, Form } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 
-const Blog = ({ allBlogs, addLike, loggedUser, deleteBlog }) => {
+const Blog = ({ allBlogs, addLike, createComment, loggedUser, deleteBlog }) => {
+  const [comment, setComment] = useState(null)
   const id = useParams().id
 
   if (!allBlogs) {
@@ -18,6 +19,15 @@ const Blog = ({ allBlogs, addLike, loggedUser, deleteBlog }) => {
 
   const deleteHandler = () => {
     deleteBlog(blog)
+  }
+
+  const commentHandler = (event) => {
+    setComment(event.target.value)
+  }
+
+  const addComment = (event) => {
+    event.preventDefault()
+    createComment(blog, { comments: comment })
   }
 
   if (!blog) {  // siltä varalta, että blogi on ehditty poistaa
@@ -54,7 +64,18 @@ const Blog = ({ allBlogs, addLike, loggedUser, deleteBlog }) => {
           </tbody>
         )}
       </table>
-      {/* kommentin lisääminen */}
+      <p/>
+      <Form onSubmit={addComment}>
+        <Form.Group>
+          <h4>Add a comment</h4>
+          <Form.Control
+            id='comments'
+            value={comment}
+            onChange={commentHandler}
+          /><p/>
+          <Button type="submit">Submit</Button>
+        </Form.Group>
+      </Form>
     </div>
   )
 }

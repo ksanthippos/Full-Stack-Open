@@ -87,6 +87,22 @@ const App = () => {
       })
   }
 
+  const addComment = (blog, content) => {
+    blogService
+      .comment(blog.id, content)
+      .then(() => {
+        blogService // näkymän päivitys
+          .getAll()
+          .then(() => {
+            dispatch(showAllBlogs())
+            dispatch(showAllPersons())
+          })
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   const deleteBlog = (blog) => {
     if (window.confirm(`Confirm delete blog: ${blog.title}`)) {
       const title = blog.title  // otsikko talteen ennen poistoa
@@ -240,7 +256,12 @@ const App = () => {
         <Switch>
           <Route path="/blogs/:id">
             { user
-              ? <Blog allBlogs={blogs} addLike={addLike} loggedUser={user} deleteBlog={deleteBlog} />
+              ? <Blog
+                allBlogs={blogs}
+                addLike={addLike}
+                createComment={addComment}
+                loggedUser={user}
+                deleteBlog={deleteBlog} />
               : <Redirect to="/login" />
             }
           </Route>
