@@ -8,9 +8,9 @@ import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Person from './components/Person'
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, Navbar, Nav } from 'react-bootstrap'
 import {
-  BrowserRouter as Router, Switch, Route, Link
+  BrowserRouter as Router, Switch, Route, Link, Redirect
 } from 'react-router-dom'
 
 // REDUX
@@ -201,80 +201,68 @@ const App = () => {
   )
 
   const loginForm = () => (
-    <Togglable buttonLabel='Login'>
-      <LoginForm
-        username={username}
-        password={password}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
-        handleSubmit={handleLogin}
-      />
-    </Togglable>
+    <LoginForm
+      username={username}
+      password={password}
+      handleUsernameChange={({ target }) => setUsername(target.value)}
+      handlePasswordChange={({ target }) => setPassword(target.value)}
+      handleSubmit={handleLogin}
+    />
   )
 
   return (
     <Router>
       <div className="container">
         <div>
-          <Link to="/blogs" style={padding}>Blogs</Link>
-          <Link to="/users" style={padding}>Users</Link>
+          <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link href="#" as="span">
+                  { user
+                    ? <Link to="/blogs" style={padding}>Blogs</Link>
+                    : null
+                  }
+                </Nav.Link>
+                <Nav.Link href="#" as="span">
+                  { user
+                    ? <Link to="/users" style={padding}>Users</Link>
+                    : null
+                  }
+                </Nav.Link>
+                <Nav.Link href="#" as="span">
+                  { user
+                    ? <em>{user.name} logged in <Button onClick={handleLogout} variant="warning" size="sm">Logout</Button></em>
+                    : <Link to="/login">Login</Link>
+                  }
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
         </div>
         <div>
           <Notification />
         </div>
         <Switch>
           <Route path="/blogs/:id">
-            {user === null ?
-              loginForm() :
-              <div>
-                <p>Logged in as {user.name}</p>
-                <Button onClick={handleLogout} variant="warning">Logout</Button>
-              </div>
-            }
             <Blog
               allBlogs={blogs}
               addLike={addLike} />
           </Route>
           <Route path="/users/:id">
-            {user === null ?
-              loginForm() :
-              <div>
-                <p>Logged in as {user.name}</p>
-                <Button onClick={handleLogout} variant="warning">Logout</Button>
-              </div>
-            }
             <Person allBlogs={blogs} />
           </Route>
           <Route path="/blogs">
-            {user === null ?
-              loginForm() :
-              <div>
-                <p>Logged in as {user.name}</p>
-                <Button onClick={handleLogout} variant="warning">Logout</Button>
-                {blogForm()}
-                {blogView()}
-              </div>
-            }
+            {blogForm()}
+            {blogView()}
           </Route>
           <Route path="/users">
-            {user === null ?
-              loginForm() :
-              <div>
-                <p>Logged in as {user.name}</p>
-                <Button onClick={handleLogout} variant="warning">Logout</Button>
-                {personView()}
-              </div>
-            }
+            {personView()}
+          </Route>
+          <Route path="/login">
+            {loginForm()}
           </Route>
           <Route path="/">
-            {user === null ?
-              loginForm() :
-              <div>
-                <p>Logged in as {user.name}</p>
-                <Button onClick={handleLogout} variant="warning">Logout</Button>
-                {blogForm()}
-              </div>
-            }
             {blogView()}
           </Route>
         </Switch>
