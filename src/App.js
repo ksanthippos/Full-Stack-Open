@@ -123,7 +123,7 @@ const App = () => {
       dispatch(storeUser(user))
       setUsername('')
       setPassword('')
-      dispatch(loginNotification(`Welcome ${username}!`, 3000))
+      dispatch(loginNotification(`Welcome ${user.name}!`, 3000))
     }
     catch (exception) {
       console.log(exception)
@@ -226,7 +226,7 @@ const App = () => {
                 </Nav.Link>
                 <Nav.Link href="#" as="span">
                   { user
-                    ? <em>{user.name} logged in <Button onClick={handleLogout} variant="warning" size="sm">Logout</Button></em>
+                    ? <em>{user.name} <Button onClick={handleLogout} variant="secondary" size="sm">Logout</Button></em>
                     : <Link to="/login">Login</Link>
                   }
                 </Nav.Link>
@@ -240,9 +240,7 @@ const App = () => {
         <Switch>
           <Route path="/blogs/:id">
             { user
-              ? <Blog
-                allBlogs={blogs}
-                addLike={addLike} />
+              ? <Blog allBlogs={blogs} addLike={addLike} loggedUser={user} deleteBlog={deleteBlog} />
               : <Redirect to="/login" />
             }
           </Route>
@@ -257,6 +255,7 @@ const App = () => {
               ? blogForm()
               : null
             }
+            <p/>
             {blogView()}
           </Route>
           <Route path="/users">

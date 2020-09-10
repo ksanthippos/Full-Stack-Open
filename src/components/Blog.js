@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 
-const Blog = ({ allBlogs, addLike }) => {
-  // const [removeVisible, setRemoveVisible] = useState(false)
+const Blog = ({ allBlogs, addLike, loggedUser, deleteBlog }) => {
   const id = useParams().id
 
   if (!allBlogs) {
@@ -12,18 +11,16 @@ const Blog = ({ allBlogs, addLike }) => {
 
   const blog = allBlogs.find(b => b.id === id)
 
-/*   // tarkistetaan, onko oikeus nähdä delete-nappi
-  if (user !== null) {
-    if (user.username !== blog.user.username) {
-      setRemoveVisible(false)
-    }
-    else {
-      setRemoveVisible(true)
-    }
-  } */
-
   const likeHandler = () => {
     addLike(blog)
+  }
+
+  const deleteHandler = () => {
+    deleteBlog(blog)
+  }
+
+  if (!blog) {  // siltä varalta, että blogi on ehditty poistaa
+    return null
   }
 
   return(
@@ -39,12 +36,11 @@ const Blog = ({ allBlogs, addLike }) => {
           Like
       </Button>
       <p/>
-      Added by {blog.user.name}
-{/*       { removeVisible ?
-        <Button onClick={deleteHandler} variant="danger">
-          remove blog
-        </Button> :
-        null */}
+      Added by {blog.user.name} <p/>
+      { loggedUser.username === blog.user.username  // vain blogin lisääjä voi poistaa
+        ? <Button onClick={deleteHandler} variant="danger">remove</Button>
+        : null
+      }
     </div>
   )
 }
