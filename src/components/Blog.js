@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
@@ -27,7 +28,7 @@ const Blog = ({ allBlogs, addLike, loggedUser, deleteBlog }) => {
     <div>
       <h2>{blog.title}</h2>
       Author: {blog.author} <p/>
-      Url:{blog.url} <p/>
+      URL: {blog.url} <p/>
       Likes: {blog.likes} <p/>
       <Button
         id="like-button"
@@ -37,10 +38,22 @@ const Blog = ({ allBlogs, addLike, loggedUser, deleteBlog }) => {
       </Button>
       <p/>
       Added by {blog.user.name} <p/>
+      <p/>
       { loggedUser.username === blog.user.username  // vain blogin lisääjä voi poistaa
-        ? <Button onClick={deleteHandler} variant="danger">remove</Button>
+        ? <Button onClick={deleteHandler} variant="danger">Remove</Button>
         : null
       }
+      <hr/>
+      <h3>Comments</h3>
+      <table>
+        {blog.comments.map(comment =>
+          <tbody>
+            <tr>
+              <td>{comment}</td>
+            </tr>
+          </tbody>
+        )}
+      </table>
     </div>
   )
 }

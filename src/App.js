@@ -142,7 +142,7 @@ const App = () => {
     if (blogs !== null) {
       return(
         <div>
-          <h2>All blogs</h2>
+          <h2>Blogs</h2>
           <Table striped>
             <thead>
               <tr>
@@ -274,6 +274,11 @@ const App = () => {
             <Redirect to="/blogs" />
           </Route>
         </Switch>
+        <div>
+          <p/>
+          <hr/>
+          <em>Bloglist app by ksanthippos (2020)</em>
+        </div>
       </div>
     </Router>
   )

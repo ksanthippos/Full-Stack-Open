@@ -11,31 +11,28 @@ const LoginForm = ({
   return (
     <div>
       <h2>Login</h2>
-
       <Form onSubmit={handleSubmit}>
-        <div>
-         username
-          <input
+        <Form.Group>
+         Username
+          <Form.Control
             id="username"
             value={username}
             onChange={handleUsernameChange}
-          />
-        </div>
-        <div>
-         password
-          <input
+          /><p/>
+         Password
+          <Form.Control
             id="password"
             type="password"
             value={password}
             onChange={handlePasswordChange}
-          />
-        </div>
-        <Button
-          id="login-button"
-          type="submit"
-          variant="primary">
-          login
-        </Button>
+          /><p/>
+          <Button
+            id="login-button"
+            type="submit"
+            variant="primary">
+          Login
+          </Button>
+        </Form.Group>
       </Form>
     </div>
   )

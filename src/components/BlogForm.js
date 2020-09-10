@@ -32,19 +32,19 @@ const BlogForm = ({ createBlog }) => {
       <Form onSubmit={addBlog}>
         <Form.Group>
           <h2>Create new blog</h2>
-            title
+            Title
           <Form.Control
             id='title'
             value={title}
             onChange={handleTitleChange}
           /><p/>
-            author
+            Author
           <Form.Control
             id='author'
             value={author}
             onChange={handleAuthorChange}
           /><p/>
-            url
+            Blog URL
           <Form.Control
             id='url'
             value={url}

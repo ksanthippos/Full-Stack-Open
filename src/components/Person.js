@@ -18,7 +18,7 @@ const Person = ({ allBlogs }) => {
 
   return(
     <div>
-      <h2>Blogs by {name}:</h2>
+      <h2>{name}</h2>
       <Table striped>
         <thead>
           <tr>
