@@ -15,7 +15,7 @@ import {
 
 // REDUX
 import { useDispatch, useSelector } from 'react-redux'
-import { addNewNotification, addLikeNotification, loginNotification, deleteBlogNotification } from './reducers/notificationReducer'
+import { addNewNotification, loginNotification, deleteBlogNotification } from './reducers/notificationReducer'
 import { showAllBlogs, updateLikedBlog } from './reducers/blogReducer'
 import { storeUser } from './reducers/loginReducer'
 import { showAllPersons } from './reducers/personReducer'
@@ -83,7 +83,6 @@ const App = () => {
       .update(blog.id, updatedBlog)
       .then(returnedBlog => {
         dispatch(updateLikedBlog(blog, returnedBlog))
-        dispatch(addLikeNotification(updatedBlog.title, 2000))
       })
   }
 
