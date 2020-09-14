@@ -6,7 +6,6 @@ const Authors = (props) => {
     return null
   }
   const authors = props.props
-  console.log(authors[0].bookCount)
 
   return (
     <div>
