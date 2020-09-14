@@ -5,7 +5,8 @@ const Authors = (props) => {
   if (!props.show) {
     return null
   }
-  const authors = []
+  const authors = props.props
+  console.log(authors[0].bookCount)
 
   return (
     <div>
@@ -24,7 +25,7 @@ const Authors = (props) => {
           {authors.map(a =>
             <tr key={a.name}>
               <td>{a.name}</td>
-              <td>{a.born}</td>
+              <td>{a.born ? a.born : '?'}</td>
               <td>{a.bookCount}</td>
             </tr>
           )}
