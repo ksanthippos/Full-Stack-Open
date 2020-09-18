@@ -16,7 +16,10 @@ export const ALL_BOOKS = gql`
     { allBooks 
       {
         title
-        author
+        author 
+        {
+          name
+        }
         published
         genres
       }
@@ -57,7 +60,11 @@ export const UPDATE_AUTHOR = gql`
 
 export const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
+    login(
+      username: $username, 
+      password: $password
+    ) 
+    {
       value
     }
   }
