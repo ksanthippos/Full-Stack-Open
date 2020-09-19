@@ -22,12 +22,8 @@ const App = () => {
       </div>
     )
   }
-  else {
-    console.log('results a loaded', resultA);
-    console.log('results b loaded', resultB);
-  }
 
-/*   if (!token) {
+  if (!token) {
     return (
       <div>        
         <h2>Login</h2>
@@ -37,7 +33,7 @@ const App = () => {
       </div>
     )
   }
- */
+
   const authors = resultA.data.allAuthors
   const books = resultB.data.allBooks
 
@@ -53,6 +49,7 @@ const App = () => {
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
+        <button onClick={logout}>logout</button>
       </div>
 
       <Authors
