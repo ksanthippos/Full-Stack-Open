@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+
 const Books = (props) => {
   const [showGenre, setShowGenre] = useState('all')
   const books = props.books
@@ -59,19 +60,5 @@ const Books = (props) => {
   )
 }
 
-/*             showGenre === 'all'
-            ? <tr key={b.title}>
-                <td>{b.title}</td>
-                <td>{b.author.name}</td>
-                <td>{b.published}</td>
-              </tr>
-            : null
-              b.genres.includes(showGenre) 
-              ? <tr key={b.title}>
-                  <td>{b.title}</td>
-                  <td>{b.author.name}</td>
-                  <td>{b.published}</td>
-                </tr>
-              : null */
 
 export default Books

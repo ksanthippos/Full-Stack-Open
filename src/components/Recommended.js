@@ -1,4 +1,5 @@
 import React from 'react'
+import{ ALL_BOOKS } from '../queries' 
 
 const Recommended = (props) => {
   const books = props.books
