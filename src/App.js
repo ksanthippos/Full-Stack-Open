@@ -68,6 +68,7 @@ const App = () => {
 
       <NewBook
         show={page === 'add'}
+        authors={authors}
       />
 
       <Recommended 

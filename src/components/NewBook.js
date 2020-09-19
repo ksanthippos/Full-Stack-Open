@@ -19,6 +19,8 @@ const NewBook = (props) => {
     return null
   }
 
+  const authors = props.authors
+
   const submit = async (event) => {
     event.preventDefault()
     
@@ -47,10 +49,14 @@ const NewBook = (props) => {
         </div>
         <div>
           author
-          <input
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
+          <select value={author} onChange={({ target }) => setAuthor(target.value)}>
+              <option>--choose name--</option>
+              {authors.map(a =>               
+                <option key={a.name} value={a.name}>
+                  {a.name}
+                </option>
+                )}
+            </select>
         </div>
         <div>
           published
