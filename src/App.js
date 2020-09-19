@@ -53,6 +53,7 @@ const App = () => {
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
         <button onClick={() => setPage('recommended')}>recommendations</button>
+        <em>{user.username} </em>logged in 
         <button onClick={logout}>logout</button>
       </div>
 
@@ -73,7 +74,6 @@ const App = () => {
 
       <Recommended 
         show={page === 'recommended'}
-        books={books}
         user={user}
       />
     </div>
