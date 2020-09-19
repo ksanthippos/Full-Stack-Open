@@ -14,7 +14,8 @@ const Authors = (props) => {
   if (!props.show) {
     return null
   }
-  const authors = props.props
+  
+  const authors = props.authors
 
   const submit = async (event) => {
     event.preventDefault()

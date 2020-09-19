@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 const Books = (props) => {
   const [showGenre, setShowGenre] = useState('all')
-  const books = props.props
+  const books = props.books
 
   if (!props.show) {
     return null
