@@ -23,7 +23,7 @@ const App = () => {
     )
   }
 
-  if (!token) {
+/*   if (!token) {
     return (
       <div>        
         <h2>Login</h2>
@@ -32,7 +32,7 @@ const App = () => {
         />
       </div>
     )
-  }
+  } */
 
   const authors = resultA.data.allAuthors
   const books = resultB.data.allBooks
