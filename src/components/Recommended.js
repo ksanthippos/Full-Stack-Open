@@ -4,9 +4,6 @@ import { useApolloClient } from '@apollo/client'
 import { ALL_BOOKS, ME } from '../queries'
 
 const Recommended = (props) => {
-  // const books = props.books
-  // const user = props.user
-  // const username = user.username
   const [ books, setBooks ] = useState([])
   const [ user, setUser ] = useState(null)
   const client = useApolloClient()
@@ -36,11 +33,6 @@ const Recommended = (props) => {
   if (!props.show) {
     return null
   }
-
-  // genren suodatus komponentissa, ei bäkkärissä
-/*   const filteredBooks = () => {
-    return books.filter(b => b.genres.includes(user.favoriteGenre))
-  } */
 
   return (
     <div>
