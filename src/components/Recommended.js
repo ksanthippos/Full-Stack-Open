@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { useApolloClient } from '@apollo/client'
 import { ALL_BOOKS, ME } from '../queries'
@@ -16,7 +17,7 @@ const Recommended = (props) => {
       setUser(result.data.me)
     }
     loadUser()
-  }, [client])
+  }, [])
 
   useEffect(() => { 
     if (user) {      
@@ -29,7 +30,7 @@ const Recommended = (props) => {
       }
       loadData()    
     }
-   }, [user, client])
+   }, [user])
 
 
   if (!props.show) {
