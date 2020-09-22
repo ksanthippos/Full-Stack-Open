@@ -11,6 +11,8 @@ import { ALL_AUTHORS, ALL_BOOKS, ME } from './queries'
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
+
+  const [bookTrigger, setBookTrigger] = useState(false)
   
   const resultA = useQuery(ALL_AUTHORS)
   const resultB = useQuery(ALL_BOOKS)
@@ -70,11 +72,14 @@ const App = () => {
       <NewBook
         show={page === 'add'}
         authors={authors}
+        bookTrigger={bookTrigger}
+        setBookTrigger={setBookTrigger}
       />
 
       <Recommended 
         show={page === 'recommended'}
-        user={user}
+        bookTrigger={bookTrigger}
+        setBookTrigger={setBookTrigger}
       />
     </div>
   )

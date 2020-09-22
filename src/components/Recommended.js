@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { useApolloClient } from '@apollo/client'
 import { ALL_BOOKS, ME } from '../queries'
 
-const Recommended = (props) => {
+const Recommended = ({ show, bookTrigger, setBookTrigger }) => {
   const [ books, setBooks ] = useState([])
   const [ user, setUser ] = useState(null)
   const client = useApolloClient()
@@ -29,8 +28,27 @@ const Recommended = (props) => {
     }
    }, [user])
 
+   useEffect(() => {
+    if (user) {      
+      console.log('bookTrigger value before load', bookTrigger) // true
 
-  if (!props.show) {
+      const loadData = async () => {
+        const result = await client.query({
+          query: ALL_BOOKS, 
+          variables: { genre: user.favoriteGenre }
+        })
+        setBooks(result.data.allBooks)
+
+        console.log(result.data.allBooks);  // no effect here
+      }
+      loadData()    
+      
+      console.log('bookTrigger value after load', bookTrigger) // false
+    }
+   }, [bookTrigger])
+
+
+  if (!show) {
     return null
   }
 
