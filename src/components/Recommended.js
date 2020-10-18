@@ -30,20 +30,14 @@ const Recommended = ({ show, bookTrigger, setBookTrigger }) => {
 
    useEffect(() => {
     if (user) {      
-      console.log('bookTrigger value before load', bookTrigger) // true
-
       const loadData = async () => {
         const result = await client.query({
           query: ALL_BOOKS, 
           variables: { genre: user.favoriteGenre }
         })
         setBooks(result.data.allBooks)
-
-        console.log(result.data.allBooks);  // no effect here
       }
       loadData()    
-      
-      console.log('bookTrigger value after load', bookTrigger) // false
     }
    }, [bookTrigger])
 

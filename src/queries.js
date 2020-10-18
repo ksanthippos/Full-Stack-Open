@@ -91,22 +91,26 @@ export const ME = gql`
 `
 
 export const BOOK_DETAILS = gql`
-  fragment BookDetails on Book {
-    id
+  fragment BookDetails on Book 
+  {
     title
-    author {
+    published
+    author 
+    {
       name
     }
-    published
     genres
+    id
   } 
 `
 
 export const BOOK_ADDED = gql`
-  subscription {
-    bookAdded {
+  subscription 
+  {
+    bookAdded 
+    {
       ...BookDetails
     }
-    ${BOOK_DETAILS}
   }
+  ${BOOK_DETAILS}
 `
