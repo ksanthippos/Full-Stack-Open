@@ -11,21 +11,38 @@ import { ALL_AUTHORS, ALL_BOOKS, ME, BOOK_ADDED } from './queries'
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
-
   const [bookTrigger, setBookTrigger] = useState(false)
   
+  // GQL
   const resultA = useQuery(ALL_AUTHORS)
   const resultB = useQuery(ALL_BOOKS)
   const resultU = useQuery(ME)
   const client = useApolloClient()
 
+  // cachen päivitys 
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) => 
+      set.map(p => p.id).includes(object.id)  
+
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks : dataInStore.allBooks.concat(addedBook) }
+      })
+    }   
+  }
+
+  // subi uuden kirjan lisäyksessä
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       const addedBook = subscriptionData.data.bookAdded
       alert(`Added book ${addedBook.title}!`)
+      updateCacheWith(addedBook)
     }
   })
 
+  // lataaminen
   if (resultA.loading || resultB.loading) {
     return(
       <div>
@@ -34,6 +51,7 @@ const App = () => {
     )
   }
 
+  //  sisäänkirjautuminen
   if (!token) {
     return (
       <div>        
@@ -45,10 +63,12 @@ const App = () => {
     )
   }
 
+  // data
   const authors = resultA.data.allAuthors
   const books = resultB.data.allBooks
   const user = resultU.data.me
 
+  // uloskirjaus
   const logout = () => {
     setToken(null)
     localStorage.clear()
@@ -81,6 +101,7 @@ const App = () => {
         authors={authors}
         bookTrigger={bookTrigger}
         setBookTrigger={setBookTrigger}
+        updateCacheWith={updateCacheWith}
       />
 
       <Recommended 
